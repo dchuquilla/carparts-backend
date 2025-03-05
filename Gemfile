@@ -54,4 +54,6 @@ group :development, :test do
   gem 'factory_bot_rails'
 
   gem 'rswag-specs'
+
+  gem 'shoulda-matchers'
 end
