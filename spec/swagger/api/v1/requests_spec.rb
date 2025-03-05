@@ -2,7 +2,7 @@
 require 'swagger_helper'
 
 describe "Requests", type: :request do
-  let(:request) { create(:request)}
+  let(:request) { create(:request) }
   let(:valid_attributes) {
     {
     user_phone: "MyString",
