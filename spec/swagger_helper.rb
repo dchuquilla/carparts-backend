@@ -24,10 +24,10 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
-              default: 'quientiene.com'
+              default: 'localhost:3001'
             }
           }
         }
