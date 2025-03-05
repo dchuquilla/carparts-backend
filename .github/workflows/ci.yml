@@ -40,18 +40,35 @@ jobs:
   rspec_tests:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options:
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
+      - uses: actions/checkout@v3
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
-
-      - name: Run RSpec tests
-        run: bundle exec rspec
+      - name: Build and run test
+        env:
+          DATABASE_URL: postgres://postgres:@localhost:5432/carparts_test
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          PIPE_ENV: development
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          bundle exec rails db:drop RAILS_ENV=test
+          bundle exec rails db:create RAILS_ENV=test
+          bundle exec rails db:migrate RAILS_ENV=test
+          bundle exec rake RAILS_ENV=test
