@@ -12,6 +12,61 @@ paths:
       responses:
         '200':
           description: requests#index
+    post:
+      summary: Creates a request
+      tags:
+      - Requests
+      parameters: []
+      responses:
+        '201':
+          description: request#create
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_phone:
+                        type: string
+                      user_name:
+                        type: string
+                      user_email:
+                        type: string
+                      part_name:
+                        type: string
+                      part_brand:
+                        type: string
+                      part_model:
+                        type: string
+                      part_year:
+                        type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request:
+                  type: object
+                  properties:
+                    user_phone:
+                      type: string
+                    user_name:
+                      type: string
+                    user_email:
+                      type: string
+                    part_name:
+                      type: string
+                    part_brand:
+                      type: string
+                    part_model:
+                      type: string
+                    part_year:
+                      type: integer
 servers:
 - url: http://{defaultHost}
   variables:

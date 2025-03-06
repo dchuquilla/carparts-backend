@@ -39,6 +39,34 @@ describe "Requests", type: :request do
         run_test!
       end
     end
+
+    post 'Creates a request' do
+      tags 'Requests'
+      produces 'application/json'
+      consumes 'application/json'
+
+      builder = Schemas::RequestCreateSchema
+
+      parameter name: :params, in: :body, schema: builder.request_payload
+
+      response(201, 'request#create') do
+        schema builder.response_payload
+
+        let(:params) { { request: valid_attributes } }
+
+        before do |example|
+          submit_request(example.metadata)
+        end
+
+        it 'creates a request' do |example|
+          data = JSON.parse(response.body)
+
+          expect(response).to have_http_status(:created)
+          expect(data['part_name']).to eq(valid_attributes[:part_name])
+        end
+      end
+
+    end
   end
 
   # describe "GET /index" do
