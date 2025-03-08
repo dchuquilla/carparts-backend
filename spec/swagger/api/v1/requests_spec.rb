@@ -3,8 +3,7 @@ require 'swagger_helper'
 
 describe "Requests", type: :request do
   let(:request) { create(:request) }
-  let(:valid_attributes) {
-    {
+  let(:valid_attributes) {{
     user_phone: "MyString",
     user_name: nil,
     user_email: nil,
@@ -12,10 +11,8 @@ describe "Requests", type: :request do
     part_brand: "PART BRAND",
     part_model: "PART MODEL",
     part_year: 2025
-    }
-  }
-  let(:invalid_attributes) {
-    {
+  }}
+  let(:invalid_attributes) {{
     user_phone: nil,
     user_name: nil,
     user_email: nil,
@@ -23,11 +20,8 @@ describe "Requests", type: :request do
     part_brand: nil,
     part_model: nil,
     part_year: nil
-    }
-  }
-  let(:valid_headers) {
-    {}
-  }
+  }}
+  let(:valid_headers) {{}}
 
   path '/api/v1/requests' do
     get 'Retrieves all requests' do
