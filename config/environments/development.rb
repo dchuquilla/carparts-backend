@@ -38,6 +38,8 @@ Rails.application.configure do
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
+  config.hosts << "dev-api.quientiene.com"
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -55,6 +57,9 @@ Rails.application.configure do
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
+  config.i18n.fallbacks = true
+  config.i18n.available_locales = [ :en, :es ]
+  config.i18n.default_locale = :es
 
   # Annotate rendered view with file names.
   config.action_view.annotate_rendered_view_with_filenames = true

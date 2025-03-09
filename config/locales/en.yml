@@ -5,7 +5,7 @@ en:
       title: "New Request"
       description: "Please fill out the form below to submit a new request."
       submit: "Submit Request"
-      success: "Request submitted successfully."
+      success: "Request submitted successfully. \n%{request_url}"
       error: "There was an error submitting your request."
       duplicated: "Request already exists."
     show:

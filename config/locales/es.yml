@@ -5,7 +5,7 @@ es:
       title: "Nueva Solicitud"
       description: "Por favor complete el formulario a continuación para enviar una nueva solicitud."
       submit: "Enviar Solicitud"
-      success: "Solicitud enviada con éxito."
+      success: "Solicitud enviada con éxito. \n%{request_url}"
       error: "Hubo un error al enviar su solicitud."
       duplicated: "La solicitud ya existe."
     show:
