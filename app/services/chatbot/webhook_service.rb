@@ -27,9 +27,9 @@ module Chatbot
       request_url = Rails.application.credentials.dig(:api_url) + url
 
       Net::HTTP.post_form(
-      uri,
-      "userId" => request.user_phone,
-      "message" => I18n.t(message_key, request_url: request_url)
+        uri,
+        "userId" => request.user_phone,
+        "message" => I18n.t(message_key, request_url: request_url)
       )
     end
   end
