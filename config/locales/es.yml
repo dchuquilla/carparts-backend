@@ -1,0 +1,27 @@
+es:
+  hello: "Hola mundo"
+  requests:
+    new:
+      title: "Nueva Solicitud"
+      description: "Por favor complete el formulario a continuación para enviar una nueva solicitud."
+      submit: "Enviar Solicitud"
+      success: "Solicitud enviada con éxito."
+      error: "Hubo un error al enviar su solicitud."
+      duplicated: "La solicitud ya existe."
+    show:
+      title: "Detalles de la Solicitud"
+      description: "Detalles de la solicitud"
+      back: "Volver a Solicitudes"
+    index:
+      title: "Solicitudes"
+      description: "Lista de todas las solicitudes"
+      new: "Nueva Solicitud"
+    edit:
+      title: "Editar Solicitud"
+      description: "Por favor actualice el formulario a continuación para editar la solicitud."
+      submit: "Actualizar Solicitud"
+      success: "Solicitud actualizada con éxito."
+      error: "Hubo un error al actualizar su solicitud."
+    destroy:
+      success: "Solicitud eliminada con éxito."
+      error: "Hubo un error al eliminar su solicitud."
