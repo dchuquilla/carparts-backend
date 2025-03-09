@@ -1,4 +1,6 @@
 class Api::V1::RequestsController < ApplicationController
+  include UniqueKeyGenerator
+
   before_action :set_request, only: %i[ show update destroy ]
 
   # GET /api/v1/requests
@@ -15,6 +17,9 @@ class Api::V1::RequestsController < ApplicationController
 
   # POST /api/v1/requests
   def create
+    uniq_key = get_uniq_key(request_params.values.join("-"))
+    render json: { error: I18n.t("requests.new.duplicated") }, status: :unprocessable_entity and return if Request.by_today_uniq_key(uniq_key).count > 0
+
     @request = Request.new(request_params)
 
     if @request.save
