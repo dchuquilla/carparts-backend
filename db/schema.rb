@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_05_054826) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_08_045819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,5 +24,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_05_054826) do
     t.integer "part_year", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "show_key"
+    t.string "digest_key"
   end
 end
