@@ -33,3 +33,5 @@
 .byebug_history
 
 /config/credentials/development.key
+
+/config/credentials/test.key
