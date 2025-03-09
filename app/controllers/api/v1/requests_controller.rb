@@ -18,19 +18,16 @@ class Api::V1::RequestsController < ApplicationController
   # POST /api/v1/requests
   def create
     uniq_key = get_uniq_key(request_params.values.join("-"))
-    if Request.by_today_uniq_key(uniq_key).count > 0
-      # TODO: Send notification to chatbot
-      render json: { error: I18n.t("requests.new.duplicated") }, status: :unprocessable_entity
+    existing_requests = Request.by_today_uniq_key(uniq_key)
+    if existing_requests
+      Chatbot::WebhookService.new(existing_requests.first, api_v1_request_url(existing_requests.first, only_path: true)).notify_request_duplicated
+      render json: { error: I18n.t("requests.new.duplicated") }, status: :unprocessable_entity and return
     end
 
     @request = Request.new(request_params)
 
     if @request.save
-
-      require "net/http"
-      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
-      Net::HTTP.post_form(uri, "userId" => @request.user_phone, "message" => I18n.t("requests.new.success", request_url: Rails.application.credentials.dig(:api_url) + api_v1_request_url(@request, only_path: true)))
-
+      Chatbot::WebhookService.new(@request, api_v1_request_url(@request, only_path: true)).notify_request_success
       render json: @request, status: :created
     else
       render json: @request.errors, status: :unprocessable_entity
