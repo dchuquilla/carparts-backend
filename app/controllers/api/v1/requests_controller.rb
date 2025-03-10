@@ -19,7 +19,8 @@ class Api::V1::RequestsController < ApplicationController
   def create
     uniq_key = get_uniq_key(request_params.values.join("-"))
     existing_requests = Request.by_today_uniq_key(uniq_key)
-    if existing_requests
+
+    if existing_requests.any?
       Chatbot::WebhookService.new(existing_requests.first, api_v1_request_url(existing_requests.first, only_path: true)).notify_request_duplicated
       render json: { error: I18n.t("requests.new.duplicated") }, status: :unprocessable_entity and return
     end
