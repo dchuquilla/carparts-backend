@@ -3,6 +3,7 @@ require 'swagger_helper'
 
 describe "Requests", type: :request do
   let(:request) { create(:request) }
+  let(:requests_list) { create_list(:request, 5, user_phone: "123456789") }
   let(:valid_attributes) { {
     user_phone: "MyString",
     user_name: nil,
@@ -24,13 +25,62 @@ describe "Requests", type: :request do
   let(:valid_headers) { {} }
 
   path '/api/v1/requests' do
+    before do
+      request
+      requests_list
+    end
+
     get 'Retrieves all requests' do
       tags 'Requests'
       produces 'application/json'
       consumes 'application/json'
 
+      builder = Schemas::RequestIndexSchema
+
       response(200, 'requests#index') do
-        run_test!
+        schema builder.response_payload
+
+        before do |example|
+          submit_request(example.metadata)
+        end
+
+        it 'returns all requests' do |example|
+          data = JSON.parse(response.body)
+
+          expect(response).to have_http_status(:ok)
+          expect(data.size).to eq(6)
+          expect(data.first['user_phone']).to eq('593111111111')
+          expect(data.last['user_phone']).to eq('123456789')
+        end
+      end
+    end
+
+    get 'Retrieves a filtered list requests' do
+      tags 'Requests'
+      produces 'application/json'
+      consumes 'application/json'
+
+      builder = Schemas::RequestIndexSchema
+      parameter name: "q[user_phone_eq]", in: :query, type: :string, description: 'Search by phone number', required: false
+      parameter name: "q[part_brand_cont]", in: :query, type: :string, description: 'Search by part brand', required: false
+      parameter name: "q[part_model_cont]", in: :query, type: :string, description: 'Search by part model', required: false
+      parameter name: "q[part_year_eq]", in: :query, type: :integer, description: 'Search by part year', required: false
+
+      response(200, 'requests#index') do
+        schema builder.response_payload
+        let("q[user_phone_eq]") { '593111111111' }
+
+        before do |example|
+          submit_request(example.metadata)
+        end
+
+        it 'returns a list of requests' do |example|
+          data = JSON.parse(response.body)
+
+          expect(response).to have_http_status(:ok)
+          expect(data.size).to eq(1)
+          expect(data.first['user_phone']).to eq('593111111111')
+        end
       end
     end
 

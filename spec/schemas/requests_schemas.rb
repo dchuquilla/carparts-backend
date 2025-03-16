@@ -1,4 +1,12 @@
 module Schemas
+  class RequestIndexSchema
+    def self.response_payload
+      {
+        type: :array,
+        items: RequestCreateSchema.response_payload
+      }
+    end
+  end
   class RequestCreateSchema
     def self.request_payload
       {

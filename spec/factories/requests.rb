@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :request do
-    user_phone { "MyString" }
+    user_phone { "593111111111" }
     user_name { nil }
     user_email { nil }
     part_name { "PART NAME" }
