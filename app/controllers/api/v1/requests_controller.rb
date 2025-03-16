@@ -5,7 +5,8 @@ class Api::V1::RequestsController < ApplicationController
 
   # GET /api/v1/requests
   def index
-    @requests = Request.all
+    @q = Request.ransack(params[:q])
+    @requests = @q.result
 
     render json: @requests
   end
@@ -57,7 +58,7 @@ class Api::V1::RequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def request_params
-      # params.fetch(:request, {:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year})
-      params.require(:request).permit(:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year)
+      # params.require(:request).permit(:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year)
+      params.expect(request: [ :user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year ])
     end
 end

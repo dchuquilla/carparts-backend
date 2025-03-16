@@ -11,6 +11,10 @@ class Request < ApplicationRecord
     .where("created_at > ?", DateTime.now.beginning_of_day)
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[user_phone part_name part_brand part_model part_year]
+  end
+
   private
 
   def add_keys
