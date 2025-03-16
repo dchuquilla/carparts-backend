@@ -59,6 +59,6 @@ class Api::V1::RequestsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def request_params
       # params.require(:request).permit(:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year)
-      params.expect(request: [ :user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year ])
+      params.expect(request: [ :user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year, :part_image ])
     end
 end
