@@ -7,6 +7,7 @@ module Schemas
       }
     end
   end
+
   class RequestCreateSchema
     def self.request_payload
       {
@@ -21,7 +22,8 @@ module Schemas
               part_name: { type: :string },
               part_brand: { type: :string },
               part_model: { type: :string },
-              part_year: { type: :integer }
+              part_year: { type: :integer },
+              part_image: { type: :string }
             }
           }
         }
@@ -42,7 +44,8 @@ module Schemas
               part_name: { type: :string },
               part_brand: { type: :string },
               part_model: { type: :string },
-              part_year: { type: :integer }
+              part_year: { type: :integer },
+              part_image: { type: :string }
             }
           }
         }

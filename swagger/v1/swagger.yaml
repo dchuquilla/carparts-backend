@@ -38,6 +38,8 @@ paths:
                           type: string
                         part_year:
                           type: integer
+                        part_image:
+                          type: string
       parameters:
       - name: q[user_phone_eq]
         in: query
@@ -95,6 +97,8 @@ paths:
                         type: string
                       part_year:
                         type: integer
+                      part_image:
+                        type: string
       requestBody:
         content:
           application/json:
@@ -118,6 +122,128 @@ paths:
                       type: string
                     part_year:
                       type: integer
+                    part_image:
+                      type: string
+  "/api/v1/requests/{id}":
+    get:
+      summary: Retrieves a request
+      tags:
+      - Requests
+      parameters:
+      - name: id
+        in: path
+        description: Request ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: request#show
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_phone:
+                        type: string
+                      user_name:
+                        type: string
+                      user_email:
+                        type: string
+                      part_name:
+                        type: string
+                      part_brand:
+                        type: string
+                      part_model:
+                        type: string
+                      part_year:
+                        type: integer
+                      part_image:
+                        type: string
+    put:
+      summary: Updates a request
+      tags:
+      - Requests
+      parameters:
+      - name: id
+        in: path
+        description: Request ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: request#update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_phone:
+                        type: string
+                      user_name:
+                        type: string
+                      user_email:
+                        type: string
+                      part_name:
+                        type: string
+                      part_brand:
+                        type: string
+                      part_model:
+                        type: string
+                      part_year:
+                        type: integer
+                      part_image:
+                        type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request:
+                  type: object
+                  properties:
+                    user_phone:
+                      type: string
+                    user_name:
+                      type: string
+                    user_email:
+                      type: string
+                    part_name:
+                      type: string
+                    part_brand:
+                      type: string
+                    part_model:
+                      type: string
+                    part_year:
+                      type: integer
+                    part_image:
+                      type: string
+    delete:
+      summary: Deletes a request
+      tags:
+      - Requests
+      parameters:
+      - name: id
+        in: path
+        description: Request ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: request#destroy
 servers:
 - url: http://{defaultHost}
   variables:

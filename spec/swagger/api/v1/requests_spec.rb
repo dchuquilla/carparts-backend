@@ -112,106 +112,77 @@ describe "Requests", type: :request do
     end
   end
 
-  # describe "GET /index" do
-  #   it "renders a successful response" do
-  #     Request.create! valid_attributes
-  #     get api_v1_requests_url, headers: valid_headers, as: :json
-  #     expect(response).to be_successful
-  #   end
-  # end
+  path '/api/v1/requests/{id}' do
+    get 'Retrieves a request' do
+      tags 'Requests'
+      produces 'application/json'
+      consumes 'application/json'
 
-  # describe "GET /show" do
-  #   it "renders a successful response" do
-  #     request = Request.create! valid_attributes
-  #     get api_v1_request_url(request), as: :json
-  #     expect(response).to be_successful
-  #   end
-  # end
+      parameter name: :id, in: :path, type: :string, description: 'Request ID'
 
-  # describe "POST /create" do
-  #   context "with valid parameters" do
-  #     it "creates a new Request" do
-  #       expect {
-  #         post api_v1_requests_url,
-  #              params: { request: valid_attributes }, headers: valid_headers, as: :json
-  #       }.to change(Request, :count).by(1)
-  #     end
+      response(200, 'request#show') do
+        schema Schemas::RequestCreateSchema.response_payload
+        let(:id) { request.id }
 
-  #     it "renders a JSON response with the new request" do
-  #       post api_v1_requests_url,
-  #            params: { request: valid_attributes }, headers: valid_headers, as: :json
-  #       expect(response).to have_http_status(:created)
-  #       expect(response.content_type).to match(a_string_including("application/json"))
-  #     end
-  #   end
+        before do |example|
+          submit_request(example.metadata)
+        end
 
-  #   context "with invalid parameters" do
-  #     it "does not create a new Request" do
-  #       expect {
-  #         post api_v1_requests_url,
-  #              params: { request: invalid_attributes }, as: :json
-  #       }.to change(Request, :count).by(0)
-  #     end
+        it 'retrieves a request' do |example|
+          data = JSON.parse(response.body)
 
-  #     it "renders a JSON response with errors for the new request" do
-  #       post api_v1_requests_url,
-  #            params: { request: invalid_attributes }, headers: valid_headers, as: :json
-  #       expect(response).to have_http_status(:unprocessable_entity)
-  #       expect(response.content_type).to match(a_string_including("application/json"))
-  #     end
-  #   end
-  # end
+          expect(response).to have_http_status(:ok)
+          expect(data['part_name']).to eq('PART NAME')
+        end
+      end
+    end
 
-  # describe "PATCH /update" do
-  #   context "with valid parameters" do
-  #     let(:new_attributes) {
-  #       {
-  #       user_phone: "MyString",
-  #       user_name: nil,
-  #       user_email: nil,
-  #       part_name: "PART NAME 2",
-  #       part_brand: "PART BRAND 2",
-  #       part_model: "PART MODEL 2",
-  #       part_year: 2025
-  #       }
-  #     }
+    put 'Updates a request' do
+      tags 'Requests'
+      produces 'application/json'
+      consumes 'application/json'
 
-  #     it "updates the requested request" do
-  #       request = Request.create! valid_attributes
-  #       patch api_v1_request_url(request),
-  #             params: { request: new_attributes }, headers: valid_headers, as: :json
-  #       request.reload
-  #       expect(request.part_name).to eq("PART NAME 2")
-  #       expect(request.part_brand).to eq("PART BRAND 2")
-  #       expect(request.part_model).to eq("PART MODEL 2")
-  #     end
+      parameter name: :id, in: :path, type: :string, description: 'Request ID'
+      parameter name: :params, in: :body, schema: Schemas::RequestCreateSchema.request_payload
 
-  #     it "renders a JSON response with the request" do
-  #       request = Request.create! valid_attributes
-  #       patch api_v1_request_url(request),
-  #             params: { request: new_attributes }, headers: valid_headers, as: :json
-  #       expect(response).to have_http_status(:ok)
-  #       expect(response.content_type).to match(a_string_including("application/json"))
-  #     end
-  #   end
+      response(200, 'request#update') do
+        schema Schemas::RequestCreateSchema.response_payload
+        let(:id) { request.id }
+        let(:params) { { request: { part_name: 'PART NAME 2', part_image: "https://part.img/image.jspeg" } } }
 
-  #   context "with invalid parameters" do
-  #     it "renders a JSON response with errors for the request" do
-  #       request = Request.create! valid_attributes
-  #       patch api_v1_request_url(request),
-  #             params: { request: invalid_attributes }, headers: valid_headers, as: :json
-  #       expect(response).to have_http_status(:unprocessable_entity)
-  #       expect(response.content_type).to match(a_string_including("application/json"))
-  #     end
-  #   end
-  # end
+        before do |example|
+          submit_request(example.metadata)
+        end
 
-  # describe "DELETE /destroy" do
-  #   it "destroys the requested request" do
-  #     request = Request.create! valid_attributes
-  #     expect {
-  #       delete api_v1_request_url(request), headers: valid_headers, as: :json
-  #     }.to change(Request, :count).by(-1)
-  #   end
-  # end
+        it 'updates a request' do |example|
+          data = JSON.parse(response.body)
+
+          expect(response).to have_http_status(:ok)
+          expect(data['part_name']).to eq('PART NAME 2')
+          expect(data['part_image']).to eq("https://part.img/image.jspeg")
+        end
+      end
+    end
+
+    delete 'Deletes a request' do
+      tags 'Requests'
+      produces 'application/json'
+      consumes 'application/json'
+
+      parameter name: :id, in: :path, type: :string, description: 'Request ID'
+
+      response(204, 'request#destroy') do
+        let(:id) { request.id }
+
+        before do |example|
+          submit_request(example.metadata)
+        end
+
+        it 'deletes a request' do |example|
+          expect(response).to have_http_status(:no_content)
+        end
+      end
+    end
+  end
+
 end
