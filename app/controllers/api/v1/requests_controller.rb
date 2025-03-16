@@ -30,6 +30,8 @@ class Api::V1::RequestsController < ApplicationController
 
     if @request.save
       Chatbot::WebhookService.new(@request, api_v1_request_url(@request, only_path: true)).notify_request_success
+      sleep(5)
+      Chatbot::WebhookService.new(@request, api_v1_request_url(@request, only_path: true)).notify_request_image
       render json: @request, status: :created
     else
       render json: @request.errors, status: :unprocessable_entity
