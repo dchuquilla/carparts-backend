@@ -5,9 +5,10 @@ en:
       title: "New Request"
       description: "Please fill out the form below to submit a new request."
       submit: "Submit Request"
-      success: "Request submitted successfully.\n%{request_url}"
-      error: "There was an error submitting your request."
-      duplicated: "Request already exists.\n%{request_url}"
+      success: "🎉 Request submitted successfully.\n%{request_url}"
+      error: "⛔ There was an error submitting your request."
+      duplicated: "🔁 Request already exists.\n%{request_url}"
+      ask_image: "📷 If you have an image of the part, please attach it here."
     show:
       title: "Request Details"
       description: "Details for request"
