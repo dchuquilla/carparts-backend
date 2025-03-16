@@ -6,12 +6,63 @@ info:
 paths:
   "/api/v1/requests":
     get:
-      summary: Retrieves all requests
+      summary: Retrieves a filtered list requests
       tags:
       - Requests
       responses:
         '200':
           description: requests#index
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    request:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        user_phone:
+                          type: string
+                        user_name:
+                          type: string
+                        user_email:
+                          type: string
+                        part_name:
+                          type: string
+                        part_brand:
+                          type: string
+                        part_model:
+                          type: string
+                        part_year:
+                          type: integer
+      parameters:
+      - name: q[user_phone_eq]
+        in: query
+        description: Search by phone number
+        required: false
+        schema:
+          type: string
+      - name: q[part_brand_cont]
+        in: query
+        description: Search by part brand
+        required: false
+        schema:
+          type: string
+      - name: q[part_model_cont]
+        in: query
+        description: Search by part model
+        required: false
+        schema:
+          type: string
+      - name: q[part_year_eq]
+        in: query
+        description: Search by part year
+        required: false
+        schema:
+          type: integer
     post:
       summary: Creates a request
       tags:
