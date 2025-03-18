@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :requests
+      resources :requests do
+        collection do
+          get "details/:show_key", to: "requests#show", as: "details"
+        end
+      end
     end
   end
 end

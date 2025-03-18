@@ -15,6 +15,10 @@ class Request < ApplicationRecord
     %w[user_phone part_name part_brand part_model part_year]
   end
 
+  def to_json(options = {})
+    super({ only: [ :part_name, :part_brand, :part_model, :part_year, :show_key, :part_image ] }.merge(options))
+  end
+
   private
 
   def add_keys

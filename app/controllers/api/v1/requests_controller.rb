@@ -55,12 +55,20 @@ class Api::V1::RequestsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_request
-      @request = Request.find(params.expect(:id))
+      @request = if show_params[:id]
+        Request.find(show_params[:id])
+      else
+        Request.find_by(show_key: show_params[:show_key])
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def request_params
       # params.require(:request).permit(:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year)
       params.expect(request: [ :user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year, :part_image ])
+    end
+
+    def show_params
+      params.permit(:id, :show_key)
     end
 end
