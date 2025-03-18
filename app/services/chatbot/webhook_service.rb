@@ -28,7 +28,7 @@ module Chatbot
       return if Rails.env.test?
 
       uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
-      request_url = Rails.application.credentials.dig(:api_url) + url
+      request_url = Rails.application.credentials.dig(:web_url) + url
 
       Net::HTTP.post_form(
         uri,

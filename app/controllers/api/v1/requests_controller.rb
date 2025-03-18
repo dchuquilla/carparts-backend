@@ -22,16 +22,16 @@ class Api::V1::RequestsController < ApplicationController
     existing_requests = Request.by_today_uniq_key(uniq_key)
 
     if existing_requests.any?
-      Chatbot::WebhookService.new(existing_requests.first, api_v1_request_url(existing_requests.first, only_path: true)).notify_request_duplicated
+      Chatbot::WebhookService.new(existing_requests.first, "/requests/#{existing_requests.first.show_key}").notify_request_duplicated
       render json: { error: I18n.t("requests.new.duplicated") }, status: :unprocessable_entity and return
     end
 
     @request = Request.new(request_params)
 
     if @request.save
-      Chatbot::WebhookService.new(@request, api_v1_request_url(@request, only_path: true)).notify_request_success
+      Chatbot::WebhookService.new(@request, "/requests/#{@request.show_key}").notify_request_success
       sleep(5)
-      Chatbot::WebhookService.new(@request, api_v1_request_url(@request, only_path: true)).notify_request_image
+      Chatbot::WebhookService.new(@request, "/requests/#{@request.show_key}").notify_request_image
       render json: @request, status: :created
     else
       render json: @request.errors, status: :unprocessable_entity
