@@ -22,14 +22,6 @@ paths:
                     request:
                       type: object
                       properties:
-                        id:
-                          type: integer
-                        user_phone:
-                          type: string
-                        user_name:
-                          type: string
-                        user_email:
-                          type: string
                         part_name:
                           type: string
                         part_brand:
@@ -39,6 +31,8 @@ paths:
                         part_year:
                           type: integer
                         part_image:
+                          type: string
+                        show_key:
                           type: string
       parameters:
       - name: q[user_phone_eq]
@@ -81,14 +75,6 @@ paths:
                   request:
                     type: object
                     properties:
-                      id:
-                        type: integer
-                      user_phone:
-                        type: string
-                      user_name:
-                        type: string
-                      user_email:
-                        type: string
                       part_name:
                         type: string
                       part_brand:
@@ -98,6 +84,8 @@ paths:
                       part_year:
                         type: integer
                       part_image:
+                        type: string
+                      show_key:
                         type: string
       requestBody:
         content:
@@ -147,14 +135,6 @@ paths:
                   request:
                     type: object
                     properties:
-                      id:
-                        type: integer
-                      user_phone:
-                        type: string
-                      user_name:
-                        type: string
-                      user_email:
-                        type: string
                       part_name:
                         type: string
                       part_brand:
@@ -164,6 +144,8 @@ paths:
                       part_year:
                         type: integer
                       part_image:
+                        type: string
+                      show_key:
                         type: string
     put:
       summary: Updates a request
@@ -187,14 +169,6 @@ paths:
                   request:
                     type: object
                     properties:
-                      id:
-                        type: integer
-                      user_phone:
-                        type: string
-                      user_name:
-                        type: string
-                      user_email:
-                        type: string
                       part_name:
                         type: string
                       part_brand:
@@ -204,6 +178,8 @@ paths:
                       part_year:
                         type: integer
                       part_image:
+                        type: string
+                      show_key:
                         type: string
       requestBody:
         content:
