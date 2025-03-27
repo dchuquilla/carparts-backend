@@ -18,6 +18,14 @@ module Chatbot
       notify_request("requests.new.ask_image")
     end
 
+    def notify_request_chassis
+      notify_request("requests.new.ask_chassis")
+    end
+
+    def notify_request_updated
+      notify_request("requests.edit.success")
+    end
+
     def notify_request_duplicated
       notify_request("requests.new.duplicated")
     end
