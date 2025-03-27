@@ -37,12 +37,17 @@ module Schemas
           request: {
             type: :object,
             properties: {
+              id: { type: :integer },
               part_name: { type: :string },
               part_brand: { type: :string },
               part_model: { type: :string },
               part_year: { type: :integer },
               part_image: { type: :string },
-              show_key: { type: :string }
+              part_chassis: { type: :string },
+              show_key: { type: :string },
+              created_at: { type: :string },
+              state: { type: :number },
+              pending_data: { type: :array, items: { type: :string } }
             }
           }
         }

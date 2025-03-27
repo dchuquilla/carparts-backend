@@ -15,8 +15,20 @@ class Request < ApplicationRecord
     %w[user_phone part_name part_brand part_model part_year]
   end
 
+  def state
+    total_fields = 7.0
+    filled_fields = usable_fields.count(&:present?)
+    (filled_fields / total_fields) * 100
+  end
+
+  def pending_data
+    usable_fields.each_with_index.with_object([]) do |(field, index), missing_fields|
+      missing_fields << self.class.column_names[index] if field.nil?
+    end
+  end
+
   def to_json(options = {})
-    super({ only: [ :part_name, :part_brand, :part_model, :part_year, :show_key, :part_image ] }.merge(options))
+    super({ only: [ :id, :part_name, :part_brand, :part_model, :part_year, :part_image, :part_chassis, :show_key, :created_at ], methods: [ :state, :pending_data ] }.merge(options))
   end
 
   private
@@ -26,5 +38,9 @@ class Request < ApplicationRecord
       show_key: SecureRandom.alphanumeric(10),
       digest_key: get_uniq_key("#{user_phone}-#{part_name}-#{part_brand}-#{part_model}-#{part_year}")
     )
+  end
+
+  def usable_fields
+    [ user_phone, part_name, part_brand, part_model, part_year, part_image, part_chassis ]
   end
 end

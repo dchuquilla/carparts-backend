@@ -32,8 +32,18 @@ paths:
                           type: integer
                         part_image:
                           type: string
+                        part_chassis:
+                          type: string
                         show_key:
                           type: string
+                        created_at:
+                          type: string
+                        state:
+                          type: number
+                        pending_data:
+                          type: array
+                          items:
+                            type: string
       parameters:
       - name: q[user_phone_eq]
         in: query
@@ -85,8 +95,18 @@ paths:
                         type: integer
                       part_image:
                         type: string
+                      part_chassis:
+                        type: string
                       show_key:
                         type: string
+                      created_at:
+                        type: string
+                      state:
+                        type: number
+                      pending_data:
+                        type: array
+                        items:
+                          type: string
       requestBody:
         content:
           application/json:
@@ -145,8 +165,18 @@ paths:
                         type: integer
                       part_image:
                         type: string
+                      part_chassis:
+                        type: string
                       show_key:
                         type: string
+                      created_at:
+                        type: string
+                      state:
+                        type: number
+                      pending_data:
+                        type: array
+                        items:
+                          type: string
     put:
       summary: Updates a request
       tags:
@@ -179,8 +209,18 @@ paths:
                         type: integer
                       part_image:
                         type: string
+                      part_chassis:
+                        type: string
                       show_key:
                         type: string
+                      created_at:
+                        type: string
+                      state:
+                        type: number
+                      pending_data:
+                        type: array
+                        items:
+                          type: string
       requestBody:
         content:
           application/json:

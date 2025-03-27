@@ -49,8 +49,8 @@ describe "Requests", type: :request do
 
           expect(response).to have_http_status(:ok)
           expect(data.size).to eq(6)
-          expect(data.first['user_phone']).to eq('593111111111')
-          expect(data.last['user_phone']).to eq('123456789')
+          expect(data.first['part_name']).to eq('PART NAME')
+          expect(data.last['part_brand']).to eq('PART BRAND')
         end
       end
     end
@@ -79,7 +79,8 @@ describe "Requests", type: :request do
 
           expect(response).to have_http_status(:ok)
           expect(data.size).to eq(1)
-          expect(data.first['user_phone']).to eq('593111111111')
+          expect(data.first['part_name']).to eq('PART NAME')
+          expect(data.first['part_model']).to eq('PART MODEL')
         end
       end
     end
