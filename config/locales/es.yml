@@ -9,6 +9,7 @@ es:
       error: "⛔ Hubo un error al enviar su solicitud."
       duplicated: "🔁 La solicitud ya existe.\n%{request_url}"
       ask_image: "📷 Si tienes una imagen del repuesto, por favor adjúntala aquí."
+      ask_chassis: "🔢 Si tienes el número de chasis (SOLO LOS PRIMEROS 8 CARACTERES), por favor adjúntalo aquí."
     show:
       title: "Detalles de la Solicitud"
       description: "Detalles de la solicitud"
@@ -21,7 +22,7 @@ es:
       title: "Editar Solicitud"
       description: "Por favor actualice el formulario a continuación para editar la solicitud."
       submit: "Actualizar Solicitud"
-      success: "Solicitud actualizada con éxito."
+      success: "🎉 Solicitud actualizada con éxito.\n%{request_url}"
       error: "Hubo un error al actualizar su solicitud."
     destroy:
       success: "Solicitud eliminada con éxito."
