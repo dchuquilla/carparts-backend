@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe JwtDenylist, type: :model do
-
   describe 'validations' do
     it { should validate_presence_of(:jti) }
   end
@@ -43,7 +42,6 @@ RSpec.describe JwtDenylist, type: :model do
         JwtDenylist.revoke_jti(denylist_entry.jti)
       end
     end
-
   end
 
   describe 'database indexes' do
@@ -57,7 +55,6 @@ RSpec.describe JwtDenylist, type: :model do
         create(:jwt_denylist, jti: 'unique_jti')
       }.to raise_error(ActiveRecord::RecordInvalid, /Validation failed: Jti has already been taken/)
     end
-
   end
 
   describe 'serialization' do
