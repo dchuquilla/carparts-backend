@@ -8,7 +8,7 @@ class Api::V1::RequestsController < ApplicationController
     @q = Request.ransack(params[:q])
     @requests = @q.result
 
-    render json: @requests.map { |req| JSON.parse(req.to_json({ state: req.state, pending_data: req.pending_data })) }
+    render json: @requests.map { |req| JSON.parse(req.to_json) }
   end
 
   # GET /api/v1/requests/1

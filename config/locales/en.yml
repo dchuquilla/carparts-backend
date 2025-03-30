@@ -1,5 +1,30 @@
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        request:
+          attributes:
+            title: "Title"
+            description: "Description"
+            status: "Status"
+            image: "Image"
+            chassis_number: "Chassis Number"
+    attributes:
+      request:
+        title: "Title"
+        description: "Description"
+        status: "Status"
+        image: "Image"
+        chassis_number: "Chassis Number"
+    models:
+      request:
+        attributes:
+          title: "Title"
+          description: "Description"
+          status: "Status"
+          image: "Image"
+          chassis_number: "Chassis Number"
   requests:
     new:
       title: "New Request"

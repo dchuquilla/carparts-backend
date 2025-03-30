@@ -23,7 +23,8 @@ class Request < ApplicationRecord
 
   def pending_data
     usable_fields.each_with_index.with_object([]) do |(field, index), missing_fields|
-      missing_fields << self.class.column_names[index] if field.nil?
+      column_name = %w[user_phone part_name part_brand part_model part_year part_image part_chassis][index]
+      missing_fields << I18n.t("activerecord.attributes.request.#{column_name}") if field.nil?
     end
   end
 
