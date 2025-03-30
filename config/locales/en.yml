@@ -5,26 +5,31 @@ en:
       models:
         request:
           attributes:
-            title: "Title"
-            description: "Description"
-            status: "Status"
-            image: "Image"
-            chassis_number: "Chassis Number"
+            part_name: "Part Name"
+            part_model: "Model"
+            part_brand: "Brand"
+            part_year: "Year"
+            part_image: "Image"
+            part_chassis: "Chassis Number"
     attributes:
       request:
-        title: "Title"
-        description: "Description"
-        status: "Status"
-        image: "Image"
-        chassis_number: "Chassis Number"
+        part_name: "Part Name"
+        part_model: "Model"
+        part_brand: "Brand"
+        part_year: "Year"
+        part_image: "Image"
+        part_chassis: "Chassis Number"
     models:
       request:
+        one: "Request"
+        many: "Requests"
         attributes:
-          title: "Title"
-          description: "Description"
-          status: "Status"
-          image: "Image"
-          chassis_number: "Chassis Number"
+          part_name: "Part Name"
+          part_model: "Model"
+          part_brand: "Brand"
+          part_year: "Year"
+          part_image: "Image"
+          part_chassis: "Chassis Number"
   requests:
     new:
       title: "New Request"

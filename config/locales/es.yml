@@ -11,11 +11,6 @@ es:
             part_year: "Año"
             part_image: "Imagen"
             part_chassis: "Número de Chasis"
-            title: "Título"
-            description: "Descripción"
-            status: "Estado"
-            image: "Imagen"
-            chassis_number: "Número de Chasis"
     attributes:
       request:
         part_name: "Nombre de la Pieza"
@@ -24,13 +19,10 @@ es:
         part_year: "Año"
         part_image: "Imagen"
         part_chassis: "Número de Chasis"
-        title: "Título"
-        description: "Descripción"
-        status: "Estado"
-        image: "Imagen"
-        chassis_number: "Número de Chasis"
     models:
       request:
+        one: "Solicitud"
+        many: "Solicitudes"
         attributes:
           part_name: "Nombre de la Pieza"
           part_model: "Modelo"
@@ -38,11 +30,6 @@ es:
           part_year: "Año"
           part_image: "Imagen"
           part_chassis: "Número de Chasis"
-          title: "Título"
-          description: "Descripción"
-          status: "Estado"
-          image: "Imagen"
-          chassis_number: "Número de Chasis"
   requests:
     new:
       title: "Nueva Solicitud"
