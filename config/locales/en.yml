@@ -2,15 +2,10 @@ en:
   hello: "Hello world"
   activerecord:
     errors:
-      models:
-        request:
-          attributes:
-            part_name: "Part Name"
-            part_model: "Model"
-            part_brand: "Brand"
-            part_year: "Year"
-            part_image: "Image"
-            part_chassis: "Chassis Number"
+      messages:
+        blank: "can't be blank"
+        invalid: "is invalid"
+        taken: "has already been taken"
     attributes:
       request:
         part_name: "Part Name"
@@ -19,17 +14,21 @@ en:
         part_year: "Year"
         part_image: "Image"
         part_chassis: "Chassis Number"
+      user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Confirm Password"
+        phone: "Phone"
+        store_name: "Store Name"
+        store_address: "Store Address"
+        store_uid: "Store ID"
     models:
       request:
         one: "Request"
         many: "Requests"
-        attributes:
-          part_name: "Part Name"
-          part_model: "Model"
-          part_brand: "Brand"
-          part_year: "Year"
-          part_image: "Image"
-          part_chassis: "Chassis Number"
+      user:
+        one: "User"
+        many: "Users"
   requests:
     new:
       title: "New Request"
@@ -57,3 +56,28 @@ en:
     destroy:
       success: "Request deleted successfully."
       error: "There was an error deleting your request."
+  stores:
+    new:
+      title: "New Store"
+      description: "Please fill out the form below to submit a new store."
+      submit: "Submit Store"
+      success: "🎉 Store submitted successfully.\n%{store_url}"
+      error: "⛔ There was an error submitting your store."
+      duplicated: "🔁 Store already exists.\n%{store_url}"
+      ask_confirmation: "🔍 Please confirm the store details.\n%{store_url}"
+    show:
+      title: "Store Details"
+      description: "Details for store"
+      back: "Back to Stores"
+    index:
+      title: "Stores"
+      description: "List of all stores"
+      new: "New Store"
+    edit:
+      title: "Edit Store"
+      description: "Please update the form below to edit the store."
+      submit: "Update Store"
+      success: "🎉 Store updated successfully.\n%{store_url}"
+      error: "There was an error updating your store."
+    destroy:
+      success: "Store deleted successfully."

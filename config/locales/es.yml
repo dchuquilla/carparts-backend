@@ -2,15 +2,10 @@ es:
   hello: "Hola mundo"
   activerecord:
     errors:
-      models:
-        request:
-          attributes:
-            part_name: "Nombre de la Pieza"
-            part_model: "Modelo"
-            part_brand: "Marca"
-            part_year: "Año"
-            part_image: "Imagen"
-            part_chassis: "Número de Chasis"
+      messages:
+        blank: "no puede estar en blanco"
+        invalid: "no es válido"
+        taken: "ya está en uso"
     attributes:
       request:
         part_name: "Nombre de la Pieza"
@@ -19,17 +14,21 @@ es:
         part_year: "Año"
         part_image: "Imagen"
         part_chassis: "Número de Chasis"
+      user:
+        email: "Correo Electrónico"
+        password: "Contraseña"
+        password_confirmation: "Confirmar Contraseña"
+        phone: "Teléfono"
+        store_name: "Nombre de la Tienda"
+        store_address: "Dirección de la Tienda"
+        store_uid: "ID de la Tienda"
     models:
       request:
         one: "Solicitud"
         many: "Solicitudes"
-        attributes:
-          part_name: "Nombre de la Pieza"
-          part_model: "Modelo"
-          part_brand: "Marca"
-          part_year: "Año"
-          part_image: "Imagen"
-          part_chassis: "Número de Chasis"
+      user:
+        one: "Usuario"
+        many: "Usuarios"
   requests:
     new:
       title: "Nueva Solicitud"
@@ -57,3 +56,25 @@ es:
     destroy:
       success: "Solicitud eliminada con éxito."
       error: "Hubo un error al eliminar su solicitud."
+  stores:
+    new:
+      title: "Nueva Tienda"
+      description: "Por favor complete el formulario a continuación para enviar una nueva tienda."
+      submit: "Enviar Tienda"
+      success: "🎉 Tienda enviada con éxito.\n%{store_url}"
+      error: "⛔ Hubo un error al enviar su tienda."
+      duplicated: "🔁 La tienda ya existe.\n%{store_url}"
+      ask_confirmation: "🎉 Por favor confirme su cuenta accediendo al siguiente enlace:\n%{store_url}."
+    show:
+      title: "Detalles de la Tienda"
+      description: "Detalles de la tienda"
+      back: "Volver a Tiendas"
+    index:
+      title: "Tiendas"
+      description: "Lista de todas las tiendas"
+      new: "Nueva Tienda"
+    edit:
+      title: "Editar Tienda"
+      description: "Por favor actualice el formulario a continuación para editar la tienda."
+      submit: "Actualizar Tienda"
+      success: "🎉 Tienda actualizada con éxito.\n%{store_url}"

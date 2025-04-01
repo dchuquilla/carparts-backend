@@ -22,18 +22,18 @@ class Api::V1::RequestsController < ApplicationController
     existing_requests = Request.by_today_uniq_key(uniq_key)
 
     if existing_requests.any?
-      Chatbot::WebhookService.new(existing_requests.first, "/requests/#{existing_requests.first.show_key}").notify_request_duplicated
+      Chatbot::WebhookService.new({ request: existing_requests.first, url: "/requests/#{existing_requests.first.show_key}" }).notify_request_duplicated
       render json: { error: I18n.t("requests.new.duplicated") }, status: :unprocessable_entity and return
     end
 
     @request = Request.new(request_params)
 
     if @request.save
-      Chatbot::WebhookService.new(@request, "/requests/#{@request.show_key}").notify_request_success
+      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_success
       sleep(5)
-      Chatbot::WebhookService.new(@request, "/requests/#{@request.show_key}").notify_request_image
+      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_image
       sleep(3)
-      Chatbot::WebhookService.new(@request, "/requests/#{@request.show_key}").notify_request_chassis
+      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_chassis
       render json: @request, status: :created
     else
       render json: @request.errors, status: :unprocessable_entity
@@ -43,7 +43,7 @@ class Api::V1::RequestsController < ApplicationController
   # PATCH/PUT /api/v1/requests/1
   def update
     if @request.update(request_params)
-      Chatbot::WebhookService.new(@request, "/requests/#{@request.show_key}").notify_request_updated
+      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_updated
       render json: @request
     else
       render json: @request.errors, status: :unprocessable_entity
