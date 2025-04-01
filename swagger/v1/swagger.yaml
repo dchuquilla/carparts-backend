@@ -330,6 +330,19 @@ paths:
                       type: string
                     password_confirmation:
                       type: string
+                    phone:
+                      type: string
+                    store_name:
+                      type: string
+                    store_uid:
+                      type: string
+                  required:
+                  - email
+                  - password
+                  - password_confirmation
+                  - phone
+                  - store_name
+                  - store_uid
               required:
               - email
               - password

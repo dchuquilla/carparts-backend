@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  respond_to :json
+
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -10,9 +12,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    build_resource(sign_up_params)
+    resource.skip_confirmation_notification!  # Prevent sending the confirmation email
+    resource.save  # Ensure the resource is saved to generate the confirmation token
+    if resource.confirmation_token.present?
+      # Send the confirmation token to a notification service
+      Chatbot::WebhookService.new({ store: resource, url: "/stores/confirm/#{resource.confirmation_token}" }).notify_new_store
+    end
+
+    resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        render json: { message: "User registered successfully", user: resource }, status: :created
+      else
+        expire_data_after_sign_in!
+        render json: { message: "Signed up successfully but inactive", user: resource }, status: :created
+      end
+    else
+      clean_up_passwords resource
+      render json: { error: resource.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -60,8 +82,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   # end
 
-  respond_to :json
-
   private
 
   def respond_with(resource, _opts = {})
@@ -70,5 +90,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       render json: { error: resource.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def sign_up_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :phone, :store_name, :store_uid)
   end
 end

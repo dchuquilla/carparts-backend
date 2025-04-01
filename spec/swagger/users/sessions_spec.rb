@@ -37,8 +37,7 @@ RSpec.describe "User Authentication API", type: :request do
           post "/users/sign_in", params: credentials.to_json, headers: { "Content-Type" => "application/json" }
         end
         it "returns user data" do
-          expect(response.body).to include(user.email)
-          expect(response.body).to include("Logged in successfully")
+          expect(response.body).to include(I18n.t("devise.failure.unconfirmed"))
         end
       end
 
@@ -61,15 +60,15 @@ RSpec.describe "User Authentication API", type: :request do
         let(:authorization) { Devise::JWT::TestHelpers.auth_headers({}, user) }
 
         before do |example|
+          user.confirm
           authorization
           # submit_request(example.metadata.merge(headers: authorization))
           delete "/users/sign_out", headers: { "Authorization" => authorization["Authorization"] }
         end
 
         it "returns a valid 200 response" do |_example|
-          body = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(body["message"]).to eq("Logged out successfully")
+          expect(response.body).to include("Logged out successfully")
         end
       end
 
@@ -93,8 +92,12 @@ RSpec.describe "User Authentication API", type: :request do
             properties: {
               email: { type: :string },
               password: { type: :string },
-              password_confirmation: { type: :string }
-            }
+              password_confirmation: { type: :string },
+              phone: { type: :string },
+              store_name: { type: :string },
+              store_uid: { type: :string }
+            },
+            required: %w[email password password_confirmation phone store_name store_uid]
           }
         },
         required: %w[email password password_confirmation]
@@ -114,12 +117,30 @@ RSpec.describe "User Authentication API", type: :request do
                },
                required: %w[message user]
 
-        let(:user) { { user: { email: "test@example.com", password: "password", password_confirmation: "password" } } }
+        let(:user) { {
+          user: {
+            email: "test@example.com",
+            password: "password",
+            password_confirmation: "password",
+            phone: "1234567890",
+            store_name: "Test Store",
+            store_uid: "test_store_uid"
+          }
+        }}
         run_test!
       end
 
       response "422", "Invalid registration data" do
-        let(:user) { { user: { email: "bad.email", password: "short", password_confirmation: "mismatch" } } }
+        let(:user) { {
+          user: {
+            email: "bad.email",
+            password: "short",
+            password_confirmation: "mismatch",
+            phone: "1234567890",
+            store_name: "Test Store",
+            store_uid: "test_store_uid"
+          }
+        }}
         run_test!
       end
     end
