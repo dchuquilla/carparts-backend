@@ -42,6 +42,6 @@ module CarpartsBackend
     config.api_only = true
 
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_quientiene_sessions'
+    config.middleware.use ActionDispatch::Session::CookieStore, key: "_quientiene_sessions"
   end
 end
