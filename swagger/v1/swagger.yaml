@@ -22,6 +22,8 @@ paths:
                     request:
                       type: object
                       properties:
+                        id:
+                          type: integer
                         part_name:
                           type: string
                         part_brand:
@@ -85,6 +87,8 @@ paths:
                   request:
                     type: object
                     properties:
+                      id:
+                        type: integer
                       part_name:
                         type: string
                       part_brand:
@@ -155,6 +159,8 @@ paths:
                   request:
                     type: object
                     properties:
+                      id:
+                        type: integer
                       part_name:
                         type: string
                       part_brand:
@@ -199,6 +205,8 @@ paths:
                   request:
                     type: object
                     properties:
+                      id:
+                        type: integer
                       part_name:
                         type: string
                       part_brand:
@@ -260,6 +268,72 @@ paths:
       responses:
         '204':
           description: request#destroy
+  "/users/sign_in":
+    post:
+      summary: User sign in
+      tags:
+      - Sessions
+      parameters: []
+      responses:
+        '200':
+          description: Logged in successfully
+        '401':
+          description: Invalid credentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+  "/users/sign_out":
+    delete:
+      summary: User sign out
+      tags:
+      - Sessions
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: Logged out successfully
+        '401':
+          description: User not found
+  "/users":
+    post:
+      summary: User registration
+      tags:
+      - Registrations
+      parameters: []
+      responses:
+        '201':
+          description: User registered successfully
+        '422':
+          description: Invalid registration data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    password_confirmation:
+                      type: string
+              required:
+              - email
+              - password
+              - password_confirmation
 servers:
 - url: http://{defaultHost}
   variables:
