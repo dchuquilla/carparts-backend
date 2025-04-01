@@ -5,9 +5,9 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { 'password' }
     password_confirmation { 'password' }
-    # phone_number { Faker::PhoneNumber.phone_number }
-    # name { Faker::Name.name }
-    # address { Faker::Address.full_address }
+    phone { Faker::PhoneNumber.phone_number }
+    store_name { Faker::Name.name }
+    store_uid { Faker::Alphanumeric.alphanumeric(number: 10) }
 
     # trait :admin do
     #   role { 'admin' }
