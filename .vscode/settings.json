@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/yamllint.json": "file:///Users/dchuquilla/dario/repuestos/carparts-backend/config/locales/devise.es.yml"
+  }
+}
