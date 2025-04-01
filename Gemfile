@@ -42,4 +42,5 @@ group :development, :test do
   gem "rswag-specs"
   gem "shoulda-matchers"
   gem "byebug"
+  gem "faker"
 end
