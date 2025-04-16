@@ -75,8 +75,9 @@ RSpec.describe "User Authentication API", type: :request do
         end
 
         it "returns a valid 200 response" do |_example|
+          body = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(response.body).to include("Logged out successfully")
+          expect(body["message"]).to include(I18n.t("devise.sessions.signed_out"))
         end
       end
 
