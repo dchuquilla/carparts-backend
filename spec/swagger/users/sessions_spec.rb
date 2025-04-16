@@ -34,10 +34,18 @@ RSpec.describe "User Authentication API", type: :request do
         let!(:user) { create(:user) }
         let(:credentials) { { user: { email: user.email, password: user.password } } }
         before do
+          user.confirm
           post "/users/sign_in", params: credentials.to_json, headers: { "Content-Type" => "application/json" }
         end
         it "returns user data" do
-          expect(response.body).to include(I18n.t("devise.failure.unconfirmed"))
+          body = JSON.parse(response.body)
+          expect(body["message"]).to include(I18n.t("devise.sessions.signed_in"))
+          expect(response.headers["authorization"]).to be_present
+          expect(response.status).to eq(200)
+          expect(body["user"]["email"]).to eq(user.email)
+          expect(body["user"]["id"]).to eq(user.id)
+          expect(body["user"]["phone"]).to eq(user.phone)
+          expect(body["user"]["store_name"]).to eq(user.store_name)
         end
       end
 
