@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_01_042155) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_14_035639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,21 +38,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_042155) do
     t.string "part_chassis"
   end
 
-  create_table "usaers", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
+  create_table "stores", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.text "address"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_usaers_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_usaers_on_reset_password_token", unique: true
+    t.index ["user_id"], name: "index_stores_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,4 +78,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_042155) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["store_uid"], name: "index_users_on_store_uid", unique: true
   end
+
+  add_foreign_key "stores", "users"
 end
