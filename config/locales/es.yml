@@ -2,6 +2,12 @@ es:
   hello: "Hola mundo"
   activerecord:
     errors:
+      models:
+        store:
+          attributes:
+            contact_phone:
+              blank: "no puede estar en blanco"
+              invalid: "debe ser un número móvil ecuatoriano válido (+5939XXXXXXXX)"
       messages:
         blank: "no puede estar en blanco"
         invalid: "no es válido"
@@ -22,6 +28,8 @@ es:
         store_name: "Nombre de la Tienda"
         store_address: "Dirección de la Tienda"
         store_uid: "ID de la Tienda"
+      store:
+        contact_phone: "Teléfono de Contacto"
     models:
       request:
         one: "Solicitud"
