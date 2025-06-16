@@ -31,13 +31,14 @@ RSpec.describe "User Authentication API", type: :request do
                },
                required: %w[message user]
 
-        let!(:user) { create(:user) }
+        let(:user) { create(:user) }
         let(:credentials) { { user: { email: user.email, password: user.password } } }
+
         before do
-          user.confirm
-          post "/users/sign_in", params: credentials.to_json, headers: { "Content-Type" => "application/json" }
+          sign_in_user(user, credentials)
         end
-        it "returns user data" do
+
+        it "returns user data", :aggregate_failures do
           body = JSON.parse(response.body)
           expect(body["message"]).to include(I18n.t("devise.sessions.signed_in"))
           expect(response.headers["authorization"]).to be_present

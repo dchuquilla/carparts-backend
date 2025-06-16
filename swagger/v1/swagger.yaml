@@ -4,6 +4,37 @@ info:
   title: Carparts API V1
   version: v1
 paths:
+  "/api/v1/profile":
+    get:
+      summary: Retrieves the current user profile
+      tags:
+      - Profiles
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: profiles#show
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  phone:
+                    type: string
+                  store_name:
+                    type: string
+                  store_uid:
+                    type: string
+                required:
+                - id
+                - email
+                - phone
+                - store_name
+                - store_uid
   "/api/v1/requests":
     get:
       summary: Retrieves a filtered list requests
