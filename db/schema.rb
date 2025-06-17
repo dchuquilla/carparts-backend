@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_14_035639) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_025617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_035639) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_jwt_denylists_on_jti", unique: true
+  end
+
+  create_table "proposals", force: :cascade do |t|
+    t.decimal "price"
+    t.string "currency", default: "USD"
+    t.integer "delivery_time_days"
+    t.integer "warranty_months"
+    t.text "notes"
+    t.string "status"
+    t.bigint "request_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_proposals_on_request_id"
+    t.index ["user_id"], name: "index_proposals_on_user_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -79,5 +94,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_035639) do
     t.index ["store_uid"], name: "index_users_on_store_uid", unique: true
   end
 
+  add_foreign_key "proposals", "requests"
+  add_foreign_key "proposals", "users"
   add_foreign_key "stores", "users"
 end

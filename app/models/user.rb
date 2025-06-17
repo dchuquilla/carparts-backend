@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
   has_one :store, dependent: :destroy
+  has_many :proposals, dependent: :destroy
 
   validates :phone, presence: true, uniqueness: true
   validates :store_name, presence: true
