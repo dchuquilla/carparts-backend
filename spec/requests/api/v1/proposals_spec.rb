@@ -40,4 +40,49 @@ RSpec.describe "Api::V1::Proposals", type: :request do
       end
     end
   end
+
+  describe "GET /show" do
+    it "returns the proposal with the specified ID", :aggregate_failures do
+      get api_v1_proposal_path(proposal1)
+      expect(response).to have_http_status(:success)
+      expect(json_response['id']).to eq(proposal1.id)
+      expect(json_response['user_id']).to eq(user.id)
+    end
+
+    it "returns a 404 if the proposal does not exist" do
+      get api_v1_proposal_path(id: 9999) # Assuming this ID does not exist
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+  
+  describe "POST /create" do
+    let(:valid_attributes) do
+      {
+        proposal: {
+          price: "100.00",
+          currency: "USD",
+          delivery_time_days: 5,
+          warranty_months: 12,
+          notes: "This is a test proposal",
+          request_id: create(:request).id
+        }
+      }
+    end
+
+    it "creates a new proposal", :aggregate_failures do
+      expect {
+        post api_v1_proposals_path, params: valid_attributes
+      }.to change(Proposal, :count).by(1)
+
+      expect(response).to have_http_status(:created)
+      expect(json_response['formatted_price']).to eq("USD 100.00")
+      expect(json_response['user_id']).to eq(user.id)
+    end
+
+    it "returns errors for invalid attributes" do
+      post api_v1_proposals_path, params: { proposal: { price: nil } }
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response['errors']).to include("Price can't be blank")
+    end
+  end
 end

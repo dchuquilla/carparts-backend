@@ -2,6 +2,7 @@ module Api
   module V1
     class ProposalsController < ApplicationController
       before_action :authenticate_user!
+      before_action :set_proposal, only: [:show]
 
       def index
         if params[:user_id]
@@ -9,7 +10,45 @@ module Api
         else
           @proposals = Proposal.all
         end
-        render json: @proposals
+        render json: @proposals.as_json(methods: :formatted_price, except: :price), each_serializer: nil
+      end
+
+      def show
+        render json: @proposal.as_json(methods: :formatted_price, except: :price), serializer: nil
+      end
+
+      def create
+        @proposal = current_user.proposals.build(proposal_params)
+        if @proposal.save
+          render json: @proposal.as_json(methods: :formatted_price, except: :price), status: :created, serializer: nil
+        else
+          render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        if @proposal.user_id == current_user.id && @proposal.update(proposal_params)
+          render json: @proposal
+        else
+          render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      def set_proposal
+        @proposal = Proposal.find(params[:id])
+      end
+
+      def proposal_params
+        params.require(:proposal).permit(
+          :price,
+          :currency,
+          :delivery_time_days,
+          :warranty_months,
+          :notes,
+          :request_id
+        )
       end
     end
   end
