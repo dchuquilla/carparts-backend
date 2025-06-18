@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         end
       end
       resources :stores, only: [:show, :create, :update]
+      resources :proposals, only: [:index, :show, :create, :update, :destroy]
     end
   end
 end
