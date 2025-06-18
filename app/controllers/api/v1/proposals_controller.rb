@@ -2,7 +2,7 @@ module Api
   module V1
     class ProposalsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_proposal, only: [:show]
+      before_action :set_proposal, only: [:show, :update]
 
       def index
         if params[:user_id]
@@ -41,14 +41,14 @@ module Api
       end
 
       def proposal_params
-        params.require(:proposal).permit(
+        params.expect(proposal: [
           :price,
           :currency,
           :delivery_time_days,
           :warranty_months,
           :notes,
           :request_id
-        )
+        ])
       end
     end
   end
