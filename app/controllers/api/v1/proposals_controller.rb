@@ -2,7 +2,7 @@ module Api
   module V1
     class ProposalsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_proposal, only: [:show, :update, :destroy]
+      before_action :set_proposal, only: [:show, :update, :destroy, :accept, :reject]
 
       def index
         if params[:user_id]
@@ -18,7 +18,7 @@ module Api
       end
 
       def create
-        @proposal = current_user.proposals.build(proposal_params)
+        @proposal = current_user.proposals.build(proposal_params.merge!({ status: :pending }))
         if @proposal.save
           render json: @proposal.as_json(methods: :formatted_price), status: :created, serializer: nil
         else
@@ -40,6 +40,22 @@ module Api
           head :no_content
         else
           render json: { error: 'Not authorized' }, status: :unauthorized
+        end
+      end
+
+      def accept
+        if @proposal.update(status: :accepted)
+          render json: @proposal
+        else
+          render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def reject
+        if @proposal.update(status: :rejected)
+          render json: @proposal
+        else
+          render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity
         end
       end
 

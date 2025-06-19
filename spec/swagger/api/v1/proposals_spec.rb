@@ -259,4 +259,50 @@ describe "Proposals", type: :request do
       end
     end
   end
+
+  path '/api/v1/proposals/{id}/accept' do
+    parameter name: :id, in: :path, type: :integer, description: 'Proposal ID'
+
+    patch 'Accepts a proposal' do
+      tags 'Proposals'
+      produces 'application/json'
+      consumes 'application/json'
+
+      response(200, 'proposals#accept') do
+        let(:id) { proposals.first.id }
+
+        before do |example|
+          submit_request(example.metadata)
+        end
+
+        it 'accepts the proposal', :aggregate_failures do |example|
+          expect(response).to have_http_status(:ok)
+          expect(json_response['status']).to eq("accepted")
+        end
+      end
+    end
+  end
+
+  path '/api/v1/proposals/{id}/reject' do
+    parameter name: :id, in: :path, type: :integer, description: 'Proposal ID'
+
+    patch 'Rejects a proposal' do
+      tags 'Proposals'
+      produces 'application/json'
+      consumes 'application/json'
+
+      response(200, 'proposals#reject') do
+        let(:id) { proposals.first.id }
+
+        before do |example|
+          submit_request(example.metadata)
+        end
+
+        it 'rejects the proposal', :aggregate_failures do |example|
+          expect(response).to have_http_status(:ok)
+          expect(json_response['status']).to eq("rejected")
+        end
+      end
+    end
+  end
 end

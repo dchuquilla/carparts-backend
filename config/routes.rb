@@ -28,7 +28,12 @@ Rails.application.routes.draw do
         end
       end
       resources :stores, only: [:show, :create, :update]
-      resources :proposals, only: [:index, :show, :create, :update, :destroy]
+      resources :proposals, only: [:index, :show, :create, :update, :destroy] do
+        member do
+          patch "accept", to: "proposals#accept", as: "accept"
+          patch "reject", to: "proposals#reject", as: "reject"
+        end
+      end
     end
   end
 end
