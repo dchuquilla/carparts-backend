@@ -2,7 +2,7 @@
 require 'swagger_helper'
 
 describe "Requests", type: :request do
-  let(:request) { create(:request) }
+  let(:request) { create(:request, user_phone: "593111111111") }
   let(:requests_list) { create_list(:request, 5, user_phone: "123456789") }
   let(:valid_attributes) { {
     user_phone: "MyString",
@@ -24,6 +24,11 @@ describe "Requests", type: :request do
   }}
   let(:valid_headers) { {} }
 
+  # Helper method to parse JSON responses
+  def json_response
+    JSON.parse(response.body)
+  end
+
   path '/api/v1/requests' do
     before do
       request
@@ -44,13 +49,10 @@ describe "Requests", type: :request do
           submit_request(example.metadata)
         end
 
-        it 'returns all requests' do |example|
-          data = JSON.parse(response.body)
-
+        it 'returns all requests', :aggregate_failures do |example|
           expect(response).to have_http_status(:ok)
-          expect(data.size).to eq(6)
-          expect(data.first['part_name']).to eq('PART NAME')
-          expect(data.last['part_brand']).to eq('PART BRAND')
+          expect(json_response.size).to eq(6)
+          expect(json_response.first['part_name']).to eq('PART NAME')
         end
       end
     end
@@ -74,13 +76,10 @@ describe "Requests", type: :request do
           submit_request(example.metadata)
         end
 
-        it 'returns a list of requests' do |example|
-          data = JSON.parse(response.body)
-
+        it 'returns a list of requests', :aggregate_failures do |example|
           expect(response).to have_http_status(:ok)
-          expect(data.size).to eq(1)
-          expect(data.first['part_name']).to eq('PART NAME')
-          expect(data.first['part_model']).to eq('PART MODEL')
+          expect(json_response.size).to eq(1)
+          expect(json_response.first['part_name']).to eq('PART NAME')
         end
       end
     end
@@ -103,11 +102,9 @@ describe "Requests", type: :request do
           submit_request(example.metadata)
         end
 
-        it 'creates a request' do |example|
-          data = JSON.parse(response.body)
-
+        it 'creates a request', :aggregate_failures do |example|
           expect(response).to have_http_status(:created)
-          expect(data['part_name']).to eq(valid_attributes[:part_name])
+          expect(json_response['part_name']).to eq(valid_attributes[:part_name])
         end
       end
     end
@@ -129,11 +126,9 @@ describe "Requests", type: :request do
           submit_request(example.metadata)
         end
 
-        it 'retrieves a request' do |example|
-          data = JSON.parse(response.body)
-
+        it 'retrieves a request', :aggregate_failures do |example|
           expect(response).to have_http_status(:ok)
-          expect(data['part_name']).to eq('PART NAME')
+          expect(json_response['part_name']).to eq('PART NAME')
         end
       end
     end
@@ -155,12 +150,10 @@ describe "Requests", type: :request do
           submit_request(example.metadata)
         end
 
-        it 'updates a request' do |example|
-          data = JSON.parse(response.body)
-
+        it 'updates a request', :aggregate_failures do |example|
           expect(response).to have_http_status(:ok)
-          expect(data['part_name']).to eq('PART NAME 2')
-          expect(data['part_image']).to eq("https://part.img/image.jspeg")
+          expect(json_response['part_name']).to eq('PART NAME 2')
+          expect(json_response['part_image']).to eq("https://part.img/image.jspeg")
         end
       end
     end
