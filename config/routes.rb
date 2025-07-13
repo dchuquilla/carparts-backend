@@ -20,15 +20,15 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :profile, only: [:show]
+      resource :profile, only: [ :show ]
 
       resources :requests do
         collection do
           get "details/:show_key", to: "requests#show", as: "details"
         end
       end
-      resources :stores, only: [:show, :create, :update]
-      resources :proposals, only: [:index, :show, :create, :update, :destroy] do
+      resources :stores, only: [ :show, :create, :update ]
+      resources :proposals, only: [ :index, :show, :create, :update, :destroy ] do
         member do
           patch "accept", to: "proposals#accept", as: "accept"
           patch "reject", to: "proposals#reject", as: "reject"

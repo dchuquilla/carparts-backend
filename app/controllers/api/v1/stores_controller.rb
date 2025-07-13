@@ -1,6 +1,6 @@
 class Api::V1::StoresController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_store, only: [:show, :update]
+  before_action :set_store, only: [ :show, :update ]
 
   def show
     if store

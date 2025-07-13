@@ -30,7 +30,7 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    response.set_header('Access-Control-Expose-Headers', 'authorization')
+    response.set_header("Access-Control-Expose-Headers", "authorization")
     render json: { message: I18n.t("devise.sessions.signed_in"), user: resource }, status: :ok
   end
 

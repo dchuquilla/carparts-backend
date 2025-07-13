@@ -2,11 +2,11 @@ module Api
   module V1
     class ProposalsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_proposal, only: [:show, :update, :destroy, :accept, :reject]
+      before_action :set_proposal, only: [ :show, :update, :destroy, :accept, :reject ]
 
       def index
-        if params[:user_id]
-          @proposals = Proposal.where(user_id: params[:user_id])
+        if current_user
+          @proposals = Proposal.where(user_id: current_user.id, request_id: params[:request_id])
         elsif params[:request_id]
           @proposals = Proposal.where(request_id: params[:request_id])
         else
@@ -41,7 +41,7 @@ module Api
           @proposal.destroy
           head :no_content
         else
-          render json: { error: 'Not authorized' }, status: :unauthorized
+          render json: { error: "Not authorized" }, status: :unauthorized
         end
       end
 
