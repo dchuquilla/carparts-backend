@@ -7,6 +7,8 @@ module Api
       def index
         if params[:user_id]
           @proposals = Proposal.where(user_id: params[:user_id])
+        elsif params[:request_id]
+          @proposals = Proposal.where(request_id: params[:request_id])
         else
           @proposals = Proposal.all
         end
