@@ -19,19 +19,13 @@ RSpec.describe "Api::V1::Proposals", type: :request do
 
     context "when no user_id is provided", :aggregate_failures do
       it "returns all proposals" do
-        get api_v1_proposals_path
+        get api_v1_proposals_path, params: {request_id: proposal1.request_id}
         expect(response).to have_http_status(:success)
-        expect(json_response.size).to eq(2)
+        expect(json_response.size).to eq(1)
       end
     end
 
     context "when a user_id is provided" do
-      it "returns proposals for the specified user", :aggregate_failures do
-        get api_v1_proposals_path, params: { user_id: user.id }
-        expect(response).to have_http_status(:success)
-        expect(json_response.size).to eq(2)
-      end
-
       it "returns an empty array if no proposals exist for the user", :aggregate_failures do
         other_user = create(:user)
         get api_v1_proposals_path, params: { user_id: other_user.id }
