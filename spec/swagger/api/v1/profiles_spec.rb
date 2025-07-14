@@ -14,7 +14,7 @@ describe "Profiles", type: :request do
       tags 'Profiles'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       response(200, 'profiles#show') do
         schema type: :object,

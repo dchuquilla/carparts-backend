@@ -21,7 +21,7 @@ describe "Proposals", type: :request do
       tags 'Proposals'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       parameter name: :user_id, in: :query, type: :integer, description: 'Filter proposals by user ID'
 
@@ -37,7 +37,7 @@ describe "Proposals", type: :request do
                    warranty_months: { type: :integer },
                    notes: { type: :string },
                    status: { type: :string, nullable: true },
-                   formatted_price: { type: :string },
+                   formatted_price: { type: :string }
                  },
                  required: %w[id price currency delivery_time_days warranty_months notes status formatted_price]
                }
@@ -60,7 +60,7 @@ describe "Proposals", type: :request do
       tags 'Proposals'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       response(200, 'proposals#index') do
         schema type: :array,
@@ -74,7 +74,7 @@ describe "Proposals", type: :request do
                    warranty_months: { type: :integer },
                    notes: { type: :string },
                    status: { type: :string, nullable: true },
-                   formatted_price: { type: :string },
+                   formatted_price: { type: :string }
                  },
                  required: %w[id price currency delivery_time_days warranty_months notes status formatted_price]
                }
@@ -94,7 +94,7 @@ describe "Proposals", type: :request do
       tags 'Proposals'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       parameter name: :proposal, in: :body, schema: {
         type: :object,
@@ -141,7 +141,7 @@ describe "Proposals", type: :request do
       tags 'Proposals'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       response(200, 'proposals#show') do
         let(:id) { proposals_user.first.id }
@@ -174,7 +174,7 @@ describe "Proposals", type: :request do
       tags 'Proposals'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       parameter name: :proposal, in: :body, schema: {
         type: :object,
@@ -230,7 +230,7 @@ describe "Proposals", type: :request do
       tags 'Proposals'
       produces 'application/json'
       consumes 'application/json'
-      security [bearerAuth: []]
+      security [ bearerAuth: [] ]
 
       response(204, 'proposals#destroy') do
         let(:id) { proposals_user.first.id }

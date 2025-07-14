@@ -14,12 +14,11 @@ RSpec.describe "Api::V1::Proposals", type: :request do
   before do
     sign_in_user(user, credentials)
   end
-  
-  describe "GET /index" do
 
+  describe "GET /index" do
     context "when no user_id is provided", :aggregate_failures do
       it "returns all proposals" do
-        get api_v1_proposals_path, params: {request_id: proposal1.request_id}
+        get api_v1_proposals_path, params: { request_id: proposal1.request_id }
         expect(response).to have_http_status(:success)
         expect(json_response.size).to eq(1)
       end
@@ -48,7 +47,7 @@ RSpec.describe "Api::V1::Proposals", type: :request do
       expect(response).to have_http_status(:not_found)
     end
   end
-  
+
   describe "POST /create" do
     let(:valid_attributes) do
       {
@@ -95,7 +94,7 @@ RSpec.describe "Api::V1::Proposals", type: :request do
 
     it "updates the proposal if the user is the owner", :aggregate_failures do
       put api_v1_proposal_path(proposal1), params: valid_attributes
-      
+
       expect(response).to have_http_status(:success)
       expect(json_response['formatted_price']).to eq("USD 150.00")
       expect(json_response['notes']).to eq("Updated proposal notes")
