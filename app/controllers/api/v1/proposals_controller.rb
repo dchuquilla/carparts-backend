@@ -20,7 +20,9 @@ module Api
       end
 
       def create
-        @proposal = current_user.proposals.build(proposal_params.merge!({ status: :pending }))
+        new_proposal_params = proposal_params
+        new_proposal_params[:price] = new_proposal_params[:price].gsub(/[^\d\.]/, '').to_f
+        @proposal = current_user.proposals.build(new_proposal_params.merge!({ status: :pending }))
         if @proposal.save
           render json: @proposal.as_json(methods: :formatted_price), status: :created, serializer: nil
         else
