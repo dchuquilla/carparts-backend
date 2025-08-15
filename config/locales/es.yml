@@ -8,6 +8,14 @@ es:
             contact_phone:
               blank: "no puede estar en blanco"
               invalid: "debe ser un número móvil ecuatoriano válido (+5939XXXXXXXX)"
+        proposal:
+          attributes:
+            request:
+              required: "es requerido"
+            price:
+              required: "es requerido"
+              greater_than: "debe ser mayor que 0"
+              not_a_number: "debe ser un número"
       messages:
         blank: "no puede estar en blanco"
         invalid: "no es válido"
