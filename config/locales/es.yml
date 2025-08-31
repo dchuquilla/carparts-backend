@@ -94,3 +94,28 @@ es:
       description: "Por favor actualice el formulario a continuación para editar la tienda."
       submit: "Actualizar Tienda"
       success: "🎉 Tienda actualizada con éxito.\n%{store_url}"
+  proposals:
+    new:
+      title: "Nueva Propuesta"
+      description: "Por favor complete el formulario a continuación para enviar una nueva propuesta."
+      submit: "Enviar Propuesta"
+      success: "🎉 Propuesta enviada con éxito.\n%{proposal_url}"
+      error: "⛔ Hubo un error al enviar su propuesta."
+      duplicated: "🔁 La propuesta ya existe.\n%{proposal_url}"
+    show:
+      title: "Detalles de la Propuesta"
+      description: "Detalles de la propuesta"
+      back: "Volver a Propuestas"
+    index:
+      title: "Propuestas"
+      description: "Lista de todas las propuestas"
+      new: "Nueva Propuesta"
+    edit:
+      title: "Editar Propuesta"
+      description: "Por favor actualice el formulario a continuación para editar la propuesta."
+      submit: "Actualizar Propuesta"
+      success: "🎉 Propuesta actualizada con éxito.\n%{proposal_url}"
+      error: "Hubo un error al actualizar su propuesta."
+    destroy:
+      success: "Propuesta eliminada con éxito."
+      error: "Hubo un error al eliminar su propuesta."

@@ -95,3 +95,27 @@ en:
       error: "There was an error updating your store."
     destroy:
       success: "Store deleted successfully."
+  proposals:
+    new:
+      title: "New Proposal"
+      description: "Please fill out the form below to submit a new proposal."
+      submit: "Submit Proposal"
+      success: "🎉 Proposal submitted successfully.\n%{proposal_url}"
+      error: "⛔ There was an error submitting your proposal."
+      duplicated: "🔁 Proposal already exists.\n%{proposal_url}"
+    show:
+      title: "Proposal Details"
+      description: "Details for proposal"
+      back: "Back to Proposals"
+    index:
+      title: "Proposals"
+      description: "List of all proposals"
+      new: "New Proposal"
+    edit:
+      title: "Edit Proposal"
+      description: "Please update the form below to edit the proposal."
+      submit: "Update Proposal"
+      success: "🎉 Proposal updated successfully.\n%{proposal_url}"
+      error: "There was an error updating your proposal."
+    destroy:
+      success: "Proposal deleted successfully."
