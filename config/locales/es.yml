@@ -55,6 +55,7 @@ es:
       duplicated: "🔁 La solicitud ya existe.\n%{request_url}"
       ask_image: "📷 Si tienes una imagen del repuesto, por favor adjúntala aquí."
       ask_chassis: "🔢 Si tienes el número de chasis (SOLO LOS PRIMEROS 8 CARACTERES), por favor adjúntalo aquí."
+      stores: "Un cliente ha solicitado un repuesto.\nPor favor, revisa la solicitud en la aplicación para enviar una propuesta.\n%{request_url}"
     show:
       title: "Detalles de la Solicitud"
       description: "Detalles de la solicitud"

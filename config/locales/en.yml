@@ -53,6 +53,7 @@ en:
       duplicated: "🔁 Request already exists.\n%{request_url}"
       ask_image: "📷 If you have an image of the part, please attach it here."
       ask_chassis: "🔢 If you have the chassis number (ONLY THE FIRST 8 CHARACTERS), please attach it here."
+      stores: "A customer has requested a part.\nPlease check the request in the app to submit a proposal.\n%{request_url}"
     show:
       title: "Request Details"
       description: "Details for request"

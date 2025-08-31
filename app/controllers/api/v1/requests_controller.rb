@@ -29,11 +29,12 @@ class Api::V1::RequestsController < ApplicationController
     @request = Request.new(request_params)
 
     if @request.save
-      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_success
-      sleep(5)
-      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_image
-      sleep(3)
-      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_chassis
+      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.id}" }).notify_request_store
+      
+      car_owner_chat = Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" })
+      car_owner_chat.notify_request_success; sleep(5)
+      car_owner_chat.notify_request_image; sleep(3)
+      car_owner_chat.notify_request_chassis
       render json: @request, status: :created
     else
       render json: @request.errors, status: :unprocessable_entity

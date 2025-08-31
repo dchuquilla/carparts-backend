@@ -3,10 +3,11 @@ require "net/http"
 module Chatbot
   class WebhookService
     include UniqueKeyGenerator
-    attr_reader :request, :store, :url
+    attr_reader :request, :proposal, :store, :url
 
     def initialize(options)
       @request = options[:request]
+      @proposal = options[:proposal]
       @store = options[:store]
       @url = options[:url]
     end
@@ -35,6 +36,14 @@ module Chatbot
       notify_store("stores.new.ask_confirmation")
     end
 
+    def notify_proposal_created
+      notify_store("proposals.new.success")
+    end
+
+    def notify_request_store
+      notify_request_to_store("requests.new.stores")
+    end
+
     private
 
     def notify_request(message_key)
@@ -50,6 +59,21 @@ module Chatbot
       )
     end
 
+    def notify_request_to_store(message_key)
+      return if Rails.env.test?
+      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
+      request_url = Rails.application.credentials.dig(:web_url) + url
+
+      User.find_each(batch_size: 100) do |store|
+        byebug
+        Net::HTTP.post_form(
+          uri,
+          "userId" => store.phone,
+          "message" => I18n.t(message_key, request_url: request_url)
+        )
+      end
+    end
+
     def notify_store(message_key)
       return if Rails.env.test?
 
@@ -61,6 +85,21 @@ module Chatbot
         "userId" => store.phone,
         "message" => I18n.t(message_key, store_url: store_url)
       )
+    end
+
+    def notify_proposal(message_key)
+      return if Rails.env.test?
+
+      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
+      request_url = Rails.application.credentials.dig(:web_url) + url
+
+      Store.find_each(batch_size: 100) do |store|
+        Net::HTTP.post_form(
+          uri,
+          "userId" => store.phone,
+          "message" => I18n.t(message_key, request_url: request_url)
+        )
+      end
     end
   end
 end
