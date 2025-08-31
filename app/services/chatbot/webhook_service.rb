@@ -37,7 +37,7 @@ module Chatbot
     end
 
     def notify_proposal_created
-      notify_store("proposals.new.success")
+      notify_proposal("proposals.new.success")
     end
 
     def notify_request_store
@@ -93,13 +93,11 @@ module Chatbot
       uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
       request_url = Rails.application.credentials.dig(:web_url) + url
 
-      Store.find_each(batch_size: 100) do |store|
-        Net::HTTP.post_form(
-          uri,
-          "userId" => store.phone,
-          "message" => I18n.t(message_key, request_url: request_url)
-        )
-      end
+      Net::HTTP.post_form(
+        uri,
+        "userId" => proposal.request.user_phone,
+        "message" => I18n.t(message_key, proposal_url: request_url)
+      )
     end
   end
 end

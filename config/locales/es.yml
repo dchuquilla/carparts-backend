@@ -100,7 +100,7 @@ es:
       title: "Nueva Propuesta"
       description: "Por favor complete el formulario a continuación para enviar una nueva propuesta."
       submit: "Enviar Propuesta"
-      success: "🎉 Propuesta enviada con éxito.\n%{proposal_url}"
+      success: "🎉 Has recibido una nueva propuesta. Revisa los detalles aquí.\n%{proposal_url}"
       error: "⛔ Hubo un error al enviar su propuesta."
       duplicated: "🔁 La propuesta ya existe.\n%{proposal_url}"
     show:

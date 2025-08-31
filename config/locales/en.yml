@@ -101,7 +101,7 @@ en:
       title: "New Proposal"
       description: "Please fill out the form below to submit a new proposal."
       submit: "Submit Proposal"
-      success: "🎉 Proposal submitted successfully.\n%{proposal_url}"
+      success: "🎉 You have received a new proposal. Check the details here.\n%{proposal_url}"
       error: "⛔ There was an error submitting your proposal."
       duplicated: "🔁 Proposal already exists.\n%{proposal_url}"
     show:

@@ -24,6 +24,7 @@ module Api
         new_proposal_params[:price] = new_proposal_params[:price].gsub(/[^\d\.]/, '').to_f
         @proposal = current_user.proposals.build(new_proposal_params.merge!({ status: :pending }))
         if @proposal.save
+          Chatbot::WebhookService.new({ proposal: @proposal, url: "/requests/#{@proposal.request.show_key}" }).notify_proposal_created
           render json: @proposal.as_json(methods: :formatted_price), status: :created, serializer: nil
         else
           render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity
