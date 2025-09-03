@@ -65,7 +65,6 @@ module Chatbot
       request_url = Rails.application.credentials.dig(:web_url) + url
 
       User.find_each(batch_size: 100) do |store|
-        byebug
         Net::HTTP.post_form(
           uri,
           "userId" => store.phone,
