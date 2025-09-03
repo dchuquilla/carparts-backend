@@ -32,7 +32,9 @@ class Api::V1::RequestsController < ApplicationController
     @request = Request.new(request_params)
 
     if @request.save
-      Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.id}" }).notify_request_store
+      Thread.new do
+        Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.id}" }).notify_request_store
+      end
       
       car_owner_chat = Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" })
       car_owner_chat.notify_request_success; sleep(5)
