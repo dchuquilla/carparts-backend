@@ -7,7 +7,7 @@ module Api
 
       # GET /api/v1/requests
       def index
-        @q = Request.ransack(params[:q])
+        @q = Request.unaccepted.ransack(params[:q])
         @requests = @q.result
 
         render json: @requests.map { |req| JSON.parse(req.to_json) }
