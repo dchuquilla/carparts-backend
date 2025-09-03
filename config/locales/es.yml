@@ -117,6 +117,7 @@ es:
       submit: "Actualizar Propuesta"
       success: "🎉 Propuesta actualizada con éxito.\n%{proposal_url}"
       error: "Hubo un error al actualizar su propuesta."
+      accepted: "🎉 Su propuesta fue aceptada.\n%{store_url}"
     destroy:
       success: "Propuesta eliminada con éxito."
       error: "Hubo un error al eliminar su propuesta."

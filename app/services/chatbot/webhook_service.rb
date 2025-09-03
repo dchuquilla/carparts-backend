@@ -44,6 +44,10 @@ module Chatbot
       notify_request_to_store("requests.new.stores")
     end
 
+    def notify_proposal_accepted
+      notify_store("proposals.edit.accepted")
+    end
+
     private
 
     def notify_request(message_key)

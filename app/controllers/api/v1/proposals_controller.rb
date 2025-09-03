@@ -1,7 +1,7 @@
 module Api
   module V1
     class ProposalsController < ApplicationController
-      before_action :authenticate_user!
+      before_action :authenticate_user!, except: %i[accept]
       before_action :set_proposal, only: [ :show, :update, :destroy, :accept, :reject ]
 
       def index
@@ -50,6 +50,7 @@ module Api
 
       def accept
         if @proposal.update(status: :accepted)
+          Chatbot::WebhookService.new({ store: @proposal.user, url: "/requests/#{@proposal.request.id}" }).notify_proposal_accepted
           render json: @proposal
         else
           render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity

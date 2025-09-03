@@ -118,5 +118,6 @@ en:
       submit: "Update Proposal"
       success: "🎉 Proposal updated successfully.\n%{proposal_url}"
       error: "There was an error updating your proposal."
+      accepted: "🎉 Your proposal was accepted.\n%{store_url}"
     destroy:
       success: "Proposal deleted successfully."
