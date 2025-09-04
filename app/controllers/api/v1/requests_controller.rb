@@ -16,7 +16,9 @@ module Api
       # GET /api/v1/requests/1
       def show
         render json: @request.as_json(
-          include: show_params[:id] ? nil : { proposals: { except: %i[request_id user_id updated_at price currency], methods: %i[formatted_price formatted_created_at] } },
+          include: show_params[:id] ? nil : { proposals: { 
+            except: %i[request_id user_id updated_at price currency], 
+            methods: %i[formatted_price formatted_created_at] }},
           except: %i[digest_key id user_phone user_email user_name show_key updated_at]
         ), serializer: nil
       end
@@ -70,7 +72,8 @@ module Api
           @request = if show_params[:id]
             Request.find(show_params[:id])
           else
-            Request.includes(:proposals).find_by(show_key: show_params[:show_key])
+            Request.includes(:proposals)
+              .find_by(show_key: show_params[:show_key])
           end
         end
 
