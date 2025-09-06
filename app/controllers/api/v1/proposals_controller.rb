@@ -12,7 +12,7 @@ module Api
         else
           @proposals = Proposal.all
         end
-        render json: @proposals.as_json(methods: :formatted_price, except: :price), each_serializer: nil
+        render json: @proposals.as_json(methods: %i[formatted_price formatted_created_at], except: :price), each_serializer: nil
       end
 
       def show

@@ -34,8 +34,12 @@ class Request < ApplicationRecord
     end
   end
 
+  def formatted_created_at
+    created_at.strftime("%Y-%m-%d %H:%M:%S")
+  end
+
   def to_json(options = {})
-    super({ only: [ :id, :part_name, :part_brand, :part_model, :part_year, :part_image, :part_chassis, :show_key, :created_at ], methods: [ :state, :pending_data ] }.merge(options))
+    super({ only: [ :id, :part_name, :part_brand, :part_model, :part_year, :part_image, :part_chassis, :show_key, :created_at ], methods: [ :state, :pending_data, :formatted_created_at ] }.merge(options))
   end
 
   private

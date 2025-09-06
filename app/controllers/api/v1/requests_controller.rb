@@ -8,7 +8,7 @@ module Api
       # GET /api/v1/requests
       def index
         @q = Request.unaccepted.ransack(params[:q])
-        @requests = @q.result
+        @requests = @q.result.order(created_at: :desc)
 
         render json: @requests.map { |req| JSON.parse(req.to_json) }
       end
@@ -19,7 +19,8 @@ module Api
           include: show_params[:id] ? nil : { proposals: { 
             except: %i[request_id user_id updated_at price currency], 
             methods: %i[formatted_price formatted_created_at] }},
-          except: %i[digest_key id user_phone user_email user_name show_key updated_at]
+          except: %i[digest_key id user_phone user_email user_name show_key updated_at],
+          methods: %i[formatted_created_at]
         ), serializer: nil
       end
 
