@@ -21,7 +21,10 @@ module Api
             page: pagy_obj.page,
             per_page: pagy_obj.limit,
             pages: pagy_obj.pages,
-            count: pagy_obj.count
+            count: pagy_obj.count,
+            car_brands: Request.car_brands.pluck(:part_brand),
+            car_models: Request.car_models.pluck(:part_model),
+            car_years: Request.car_years.pluck(:part_year)
           },
           sort: search.sorts.map(&:to_s)
         }

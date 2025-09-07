@@ -17,6 +17,10 @@ class Request < ApplicationRecord
     where.not(id: Proposal.where(status: PROPOSAL_STATUSES[:accepted]).select(:request_id)) 
   }
 
+  scope :car_brands, -> { select(:part_brand).distinct }
+  scope :car_models, -> { select(:part_model).distinct }
+  scope :car_years, -> { select(:part_year).distinct }
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[part_name part_model part_brand part_year created_at updated_at]
   end
