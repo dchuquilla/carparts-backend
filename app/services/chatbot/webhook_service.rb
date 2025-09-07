@@ -6,6 +6,9 @@ module Chatbot
     include UniqueKeyGenerator
     attr_reader :request, :proposal, :store, :url
 
+    STORES_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
+    REQUESTS_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
+
     def initialize(options)
       @request = options[:request]
       @proposal = options[:proposal]
@@ -54,11 +57,10 @@ module Chatbot
     def notify_request(message_key)
       return if Rails.env.test?
 
-      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
       request_url = Rails.application.credentials.dig(:web_url) + url
 
       Net::HTTP.post_form(
-        uri,
+        REQUESTS_URI,
         "userId" => request.user_phone,
         "message" => I18n.t(message_key, request_url: request_url)
       )
@@ -66,14 +68,13 @@ module Chatbot
 
     def notify_request_to_store(message_key)
       return if Rails.env.test?
-      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
       request_url = Rails.application.credentials.dig(:web_url) + url
 
       Async do
         User.find_each(batch_size: 100) do |store|
           Async do
             Net::HTTP.post_form(
-              uri,
+              STORES_URI,
               "userId" => store.phone,
               "message" => I18n.t(message_key, request_url: request_url)
             )
@@ -85,11 +86,10 @@ module Chatbot
     def notify_store(message_key)
       return if Rails.env.test?
 
-      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
       store_url = Rails.application.credentials.dig(:web_url) + url
 
       Net::HTTP.post_form(
-        uri,
+        STORES_URI,
         "userId" => store.phone,
         "message" => I18n.t(message_key, store_url: store_url)
       )
@@ -98,11 +98,10 @@ module Chatbot
     def notify_proposal(message_key)
       return if Rails.env.test?
 
-      uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
       request_url = Rails.application.credentials.dig(:web_url) + url
 
       Net::HTTP.post_form(
-        uri,
+        STORES_URI,
         "userId" => proposal.request.user_phone,
         "message" => I18n.t(message_key, proposal_url: request_url)
       )
