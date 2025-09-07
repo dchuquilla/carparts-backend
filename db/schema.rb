@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_025617) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_144523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "jwt_denylists", force: :cascade do |t|
     t.string "jti"
@@ -51,6 +52,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_025617) do
     t.string "digest_key"
     t.string "part_image"
     t.string "part_chassis"
+    t.index ["part_brand"], name: "index_requests_on_part_brand_trgm", opclass: :gin_trgm_ops, using: :gin
+    t.index ["part_model"], name: "index_requests_on_part_model_trgm", opclass: :gin_trgm_ops, using: :gin
+    t.index ["part_name"], name: "index_requests_on_part_name_trgm", opclass: :gin_trgm_ops, using: :gin
+    t.index ["part_year"], name: "index_requests_on_part_year"
   end
 
   create_table "stores", force: :cascade do |t|
