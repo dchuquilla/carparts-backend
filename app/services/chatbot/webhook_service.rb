@@ -1,3 +1,4 @@
+require "async"
 require "net/http"
 
 module Chatbot
@@ -68,12 +69,16 @@ module Chatbot
       uri = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
       request_url = Rails.application.credentials.dig(:web_url) + url
 
-      User.find_each(batch_size: 100) do |store|
-        Net::HTTP.post_form(
-          uri,
-          "userId" => store.phone,
-          "message" => I18n.t(message_key, request_url: request_url)
-        )
+      Async do
+        User.find_each(batch_size: 100) do |store|
+          Async do
+            Net::HTTP.post_form(
+              uri,
+              "userId" => store.phone,
+              "message" => I18n.t(message_key, request_url: request_url)
+            )
+          end
+        end
       end
     end
 

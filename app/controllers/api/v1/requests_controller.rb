@@ -38,9 +38,7 @@ module Api
 
         if @request.save
           # TODO: move it to a background job in sidekiq
-          Thread.new do
-            Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.id}" }).notify_request_store
-          end
+          Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.id}" }).notify_request_store
           
           car_owner_chat = Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" })
           car_owner_chat.notify_request_success; sleep(5)
