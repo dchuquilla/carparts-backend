@@ -28,6 +28,7 @@ gem "rack-cors"
 gem "rswag-api"
 gem "rswag-ui"
 gem "ransack"
+gem "pagy"
 gem "devise"
 gem "devise-jwt"
 # concurrency
