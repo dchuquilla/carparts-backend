@@ -2,15 +2,29 @@ module Api
   module V1
     class RequestsController < ApplicationController
       include UniqueKeyGenerator
+      include Pagy::Backend
 
       before_action :set_request, only: %i[ show update destroy ]
 
       # GET /api/v1/requests
       def index
-        @q = Request.unaccepted.ransack(params[:q])
-        @requests = @q.result.order(created_at: :desc)
+        search = Request.unaccepted.ransack(ransack_params)
+        search.sorts = 'created_at desc' if search.sorts.empty?
 
-        render json: @requests.map { |req| JSON.parse(req.to_json) }
+        scope = search.result
+
+        pagy_obj, requests = pagy(scope, page: params[:page], items: params[:per_page] || 20)
+
+        render json: {
+          requests: requests.as_json(only: %i[id part_name part_model part_brand part_year part_image part_chassis], methods: %i[formatted_created_at]),
+          meta: {
+            page: pagy_obj.page,
+            per_page: pagy_obj.limit,
+            pages: pagy_obj.pages,
+            count: pagy_obj.count
+          },
+          sort: search.sorts.map(&:to_s)
+        }
       end
 
       # GET /api/v1/requests/1
@@ -66,25 +80,38 @@ module Api
       end
 
       private
-        # Use callbacks to share common setup or constraints between actions.
-        def set_request
-          @request = if show_params[:id]
-            Request.find(show_params[:id])
-          else
-            Request.includes(:proposals)
-              .find_by(show_key: show_params[:show_key])
-          end
-        end
 
-        # Only allow a list of trusted parameters through.
-        def request_params
-          # params.require(:request).permit(:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year)
-          params.expect(request: [ :user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year, :part_image, :part_chassis ])
+      # Use callbacks to share common setup or constraints between actions.
+      def set_request
+        @request = if show_params[:id]
+          Request.find(show_params[:id])
+        else
+          Request.includes(:proposals)
+            .find_by(show_key: show_params[:show_key])
         end
+      end
 
-        def show_params
-          params.permit(:id, :show_key)
-        end
+      # Only allow a list of trusted parameters through.
+      def request_params
+        # params.require(:request).permit(:user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year)
+        params.expect(request: [ :user_phone, :user_email, :user_name, :part_name, :part_brand, :part_model, :part_year, :part_image, :part_chassis ])
+      end
+
+      def show_params
+        params.permit(:id, :show_key)
+      end
+
+      def ransack_params
+        params.fetch(:q, {}).permit(
+          :s, # sorting, e.g. "part_year desc, part_brand asc"
+          :part_name_cont,
+          :part_model_cont,
+          :part_brand_cont,
+          :part_year_eq,
+          :part_year_gteq,
+          :part_year_lteq
+        )
+      end
     end
   end
 end

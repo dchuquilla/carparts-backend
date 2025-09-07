@@ -17,6 +17,14 @@ class Request < ApplicationRecord
     where.not(id: Proposal.where(status: PROPOSAL_STATUSES[:accepted]).select(:request_id)) 
   }
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[part_name part_model part_brand part_year created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["proposals"]
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     %w[user_phone part_name part_brand part_model part_year]
   end
