@@ -52,6 +52,10 @@ class Request < ApplicationRecord
     super({ only: [ :id, :part_name, :part_brand, :part_model, :part_year, :part_image, :part_chassis, :show_key, :created_at ], methods: [ :state, :pending_data, :formatted_created_at ] }.merge(options))
   end
 
+  def create_contact
+    "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:Cliente\nN;CHARSET=UTF-8:Cliente;Client;;Owner;Car\nNICKNAME;CHARSET=UTF-8:Cliente\nUID;CHARSET=UTF-8:#{SecureRandom.uuid}\nEMAIL;CHARSET=UTF-8;type=HOME,INTERNET:info@quientiene.com\nTEL;TYPE=CELL;waid=#{user_phone}:+#{user_phone}\nREV:2020-03-18T09:07:15.896Z\nEND:VCARD"
+  end
+
   private
 
   def add_keys

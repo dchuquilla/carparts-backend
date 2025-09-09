@@ -1,3 +1,5 @@
+require "async"
+
 module Api
   module V1
     class ProposalsController < ApplicationController
@@ -50,7 +52,15 @@ module Api
 
       def accept
         if @proposal.update(status: :accepted)
-          Chatbot::WebhookService.new({ store: @proposal.user, url: "/requests/#{@proposal.request.id}" }).notify_proposal_accepted
+          Async do
+            Chatbot::WebhookService.new({ store: @proposal.user, url: "/requests/#{@proposal.request.id}" }).notify_proposal_accepted
+          end
+          Async do
+            Chatbot::WebhookService.new({ proposal: @proposal }).notify_contact_to_user
+          end
+          Async do
+            Chatbot::WebhookService.new({ proposal: @proposal }).notify_contact_to_store
+          end
           render json: @proposal
         else
           render json: { errors: @proposal.errors.full_messages }, status: :unprocessable_entity

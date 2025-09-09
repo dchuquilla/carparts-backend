@@ -8,6 +8,7 @@ module Chatbot
 
     STORES_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
     REQUESTS_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
+    CONTACTS_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/contact/notify")
 
     def initialize(options)
       @request = options[:request]
@@ -52,6 +53,14 @@ module Chatbot
       notify_store("proposals.edit.accepted")
     end
 
+    def notify_contact_to_user
+      notify_contact_request(proposal.user.create_contact)
+    end
+
+    def notify_contact_to_store
+      notify_contact_store(proposal.request.create_contact)
+    end
+
     private
 
     def notify_request(message_key)
@@ -63,6 +72,18 @@ module Chatbot
         REQUESTS_URI,
         "userId" => request.user_phone,
         "message" => I18n.t(message_key, request_url: request_url)
+      )
+    end
+
+    def notify_contact_request(message_key)
+      return if Rails.env.test?
+
+
+      Net::HTTP.post_form(
+        CONTACTS_URI,
+        "userId" => proposal.request.user_phone,
+        "message" => message_key,
+        "contact" => "store"
       )
     end
 
@@ -92,6 +113,17 @@ module Chatbot
         STORES_URI,
         "userId" => store.phone,
         "message" => I18n.t(message_key, store_url: store_url)
+      )
+    end
+
+    def notify_contact_store(message_key)
+      return if Rails.env.test?
+
+        Net::HTTP.post_form(
+        CONTACTS_URI,
+        "userId" => proposal.user.phone,
+        "message" => message_key,
+        "contact" => "car_owner"
       )
     end
 

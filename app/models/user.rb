@@ -11,4 +11,8 @@ class User < ApplicationRecord
   validates :phone, presence: true, uniqueness: true
   validates :store_name, presence: true
   validates :store_uid, presence: true, uniqueness: true
+
+  def create_contact
+    "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:Almacén\nN;CHARSET=UTF-8:Almacén;Client;;Owner;Car\nNICKNAME;CHARSET=UTF-8:Almacén\nUID;CHARSET=UTF-8:#{SecureRandom.uuid}\nEMAIL;CHARSET=UTF-8;type=HOME,INTERNET:#{email}\nTEL;TYPE=CELL;waid=#{phone}:+#{phone}\nREV:2020-03-18T09:07:15.896Z\nEND:VCARD"
+  end
 end

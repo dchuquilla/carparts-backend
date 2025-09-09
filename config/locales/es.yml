@@ -1,5 +1,4 @@
 es:
-  hello: "Hola mundo"
   activerecord:
     errors:
       models:
