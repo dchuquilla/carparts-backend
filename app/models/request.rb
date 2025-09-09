@@ -12,11 +12,9 @@ class Request < ApplicationRecord
     where(digest_key: uniq_key)
     .where("created_at > ?", DateTime.now.beginning_of_day)
   end
-
   scope :unaccepted, -> { 
     where.not(id: Proposal.where(status: PROPOSAL_STATUSES[:accepted]).select(:request_id)) 
   }
-
   scope :car_brands, -> { select("DISTINCT UPPER(part_brand) AS part_brand").order("part_brand") }
   scope :car_models, -> { select("DISTINCT UPPER(part_model) AS part_model").order("part_model") }
   scope :car_years, -> { select("DISTINCT part_year AS part_year").order("part_year DESC") }

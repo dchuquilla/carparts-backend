@@ -111,6 +111,7 @@ module Api
           :part_model_cont,
           :part_brand_cont,
           :part_year_eq,
+          :user_phone_eq,
           :part_year_gteq,
           :part_year_lteq
         )
