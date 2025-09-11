@@ -34,7 +34,7 @@ es:
         phone: "Teléfono"
         store_name: "Nombre de la Tienda"
         store_address: "Dirección de la Tienda"
-        store_uid: "ID de la Tienda"
+        store_uid: "RUC de la tienda"
       store:
         contact_phone: "Teléfono de Contacto"
     models:
