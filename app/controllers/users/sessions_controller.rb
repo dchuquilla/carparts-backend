@@ -31,7 +31,7 @@ class Users::SessionsController < Devise::SessionsController
 
   def respond_with(resource, _opts = {})
     response.set_header("Access-Control-Expose-Headers", "authorization")
-    render json: { message: I18n.t("devise.sessions.signed_in"), user: resource }, status: :ok
+    render json: { message: I18n.t("devise.sessions.signed_in"), user: resource.as_json(only: [:id, :email, :store_name, :store_uid, :renew_at, :subscription_tier]) }, status: :ok
   end
 
   def respond_to_on_destroy
