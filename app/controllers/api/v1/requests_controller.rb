@@ -16,7 +16,7 @@ module Api
         pagy_obj, requests = pagy(scope, page: params[:page], items: params[:per_page] || 20)
 
         render json: {
-          requests: requests.as_json(only: %i[id part_name part_model part_brand part_year part_image part_chassis], methods: %i[formatted_created_at]),
+          requests: requests.as_json(only: %i[id part_name part_model part_brand part_year part_image part_chassis show_key], methods: %i[formatted_created_at]),
           meta: {
             page: pagy_obj.page,
             per_page: pagy_obj.limit,
@@ -24,7 +24,7 @@ module Api
             count: pagy_obj.count,
             car_brands: Request.car_brands.map(&:part_brand),
             car_models: Request.car_models.map(&:part_model),
-            car_years: Request.car_years.map(&:part_year)
+            car_years: Request.car_years.map(&:part_year),
           },
           sort: search.sorts.map(&:to_s)
         }
@@ -54,7 +54,6 @@ module Api
         @request = Request.new(request_params)
 
         if @request.save
-          # TODO: move it to a background job in sidekiq
           Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.id}" }).notify_request_store
           
           car_owner_chat = Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" })
