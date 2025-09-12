@@ -80,8 +80,9 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: carparts_production
-    username: carparts
+    host: <%= ENV["CARPARTS_DATABASE_HOST"] %>
+    database: <%= ENV["CARPARTS_DATABASE_NAME"] %>
+    username: <%= ENV["CARPARTS_DATABASE_USERNAME"] %>
     password: <%= ENV["CARPARTS_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
