@@ -9,7 +9,6 @@ module Api
       # GET /api/v1/requests
       def index
         search = Request.unaccepted.ransack(ransack_params)
-        search.sorts = 'created_at desc' if search.sorts.empty?
 
         scope = search.result
 
