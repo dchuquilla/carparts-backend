@@ -8,7 +8,7 @@ module Api
 
       # GET /api/v1/requests
       def index
-        search = Request.unaccepted.ransack(ransack_params.merge(s: params[:q]&.dig(:s) || 'created_at desc'))
+        search = Request.unaccepted.ransack(ransack_params)
 
         scope = search.result
 

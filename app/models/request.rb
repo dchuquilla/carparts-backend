@@ -20,15 +20,11 @@ class Request < ApplicationRecord
   scope :car_years, -> { select("DISTINCT part_year AS part_year").order("part_year DESC") }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[part_name part_model part_brand part_year created_at updated_at]
+    %w[part_name part_model part_brand part_year created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
     ["proposals"]
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    %w[user_phone part_name part_brand part_model part_year]
   end
 
   def state
