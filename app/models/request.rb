@@ -45,7 +45,7 @@ class Request < ApplicationRecord
   end
 
   def formatted_created_at
-    created_at.strftime("%Y-%m-%d %H:%M:%S")
+    created_at.in_time_zone("America/Guayaquil").strftime("%Y-%m-%d %H:%M:%S")
   end
 
   def to_json(options = {})
