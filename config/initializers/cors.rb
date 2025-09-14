@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins [ "localhost:3001", "localhost:5173", "dev-webs.quientiene.com", "dev-api.quientiene.com" ]
+    origins [ "localhost:3001", "localhost:5173", "dev-webs.quientiene.com", "dev-api.quientiene.com", "api.quientiene.com", "carparts-backend.onrender.com" ]
 
     resource "*",
       headers: :any,
