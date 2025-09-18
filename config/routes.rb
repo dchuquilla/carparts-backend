@@ -28,7 +28,11 @@ Rails.application.routes.draw do
           get :filter, action: :index  # /api/v1/requests/filter uses the same index
         end
       end
-      resources :stores, only: [ :show, :create, :update ]
+      resources :stores, only: [ :show, :create, :update ] do
+        collection do
+          get "whatsapp-number/:phone", to: "stores#whatsapp_number", as: "whatsapp_number"
+        end
+      end
       resources :proposals, only: [ :index, :show, :create, :update, :destroy ] do
         member do
           patch "accept", to: "proposals#accept", as: "accept"
