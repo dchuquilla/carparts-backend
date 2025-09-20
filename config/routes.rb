@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :profile, only: [ :show ]
+      resources :uploads, only: [ :create, :show ]
 
       resources :requests do
         collection do

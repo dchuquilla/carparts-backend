@@ -88,6 +88,7 @@ module Api
           :delivery_time_days,
           :warranty_months,
           :notes,
+          :part_image,
           :request_id
         ])
       end
