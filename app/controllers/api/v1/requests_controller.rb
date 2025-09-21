@@ -4,6 +4,8 @@ module Api
       include UniqueKeyGenerator
       include Pagy::Backend
 
+      before_action :authenticate_user!, except: %i[show create update]
+
       before_action :set_request, only: %i[ show update destroy ]
 
       # GET /api/v1/requests
