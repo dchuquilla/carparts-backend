@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       resources :requests do
         collection do
           get "details/:show_key", to: "requests#show", as: "details"
-          get :filter, action: :index  # /api/v1/requests/filter uses the same index
+          get :filter, action: :filter  # /api/v1/requests/filter uses the same index
         end
       end
       resources :stores, only: [ :show, :create, :update ] do

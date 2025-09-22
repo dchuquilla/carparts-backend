@@ -4,12 +4,35 @@ module Api
       include UniqueKeyGenerator
       include Pagy::Backend
 
-      before_action :authenticate_user!, except: %i[show create update]
+      before_action :authenticate_user!, except: %i[show create update filter]
 
       before_action :set_request, only: %i[ show update destroy ]
 
       # GET /api/v1/requests
       def index
+        search = Request.unaccepted.ransack(ransack_params)
+
+        scope = search.result
+
+        pagy_obj, requests = pagy(scope, page: params[:page], items: params[:per_page] || 20)
+
+        render json: {
+          requests: requests.as_json(only: %i[id part_name part_model part_brand part_year part_image part_chassis show_key], methods: %i[formatted_created_at]),
+          meta: {
+            page: pagy_obj.page,
+            per_page: pagy_obj.limit,
+            pages: pagy_obj.pages,
+            count: pagy_obj.count,
+            car_brands: Request.car_brands.map(&:part_brand),
+            car_models: Request.car_models.map(&:part_model),
+            car_years: Request.car_years.map(&:part_year),
+          },
+          sort: search.sorts.map(&:to_s)
+        }
+      end
+
+      # GET /api/v1/filter
+      def filter
         search = Request.unaccepted.ransack(ransack_params)
 
         scope = search.result
