@@ -4,7 +4,7 @@ require "net/http"
 module Chatbot
   class WebhookService
     include UniqueKeyGenerator
-    attr_reader :request, :proposal, :store, :url
+    attr_reader :request, :proposal, :store, :url, :message
 
     STORES_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
     REQUESTS_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
@@ -15,6 +15,7 @@ module Chatbot
       @proposal = options[:proposal]
       @store = options[:store]
       @url = options[:url]
+      @message = options[:message]
     end
 
     def notify_request_success
@@ -61,6 +62,10 @@ module Chatbot
       notify_contact_store(proposal.request.create_contact)
     end
 
+    def notify_request_failed
+      notify_request_message("requests.new.error")
+    end
+
     private
 
     def notify_request(message_key)
@@ -72,6 +77,16 @@ module Chatbot
         REQUESTS_URI,
         "userId" => request.user_phone,
         "message" => I18n.t(message_key, request_url: request_url)
+      )
+    end
+
+    def notify_request_message
+      return if Rails.env.test?
+
+      Net::HTTP.post_form(
+        REQUESTS_URI,
+        "userId" => request.user_phone,
+        "message" => I18n.t(message_key, message: message)
       )
     end
 
