@@ -86,7 +86,7 @@ module Api
           car_owner_chat.notify_request_chassis
           render json: @request, status: :created
         else
-          Chatbot::WebhookService.new({ request: @request, message: @request.errors.full_messages.join("\n") }).notify_request_message
+          Chatbot::WebhookService.new({ request: @request, message: @request.errors.full_messages.join("\n") }).notify_request_failed
           render json: @request.errors, status: :unprocessable_entity
         end
       end
