@@ -80,7 +80,7 @@ module Chatbot
       )
     end
 
-    def notify_request_message
+    def notify_request_message(message_key)
       return if Rails.env.test?
 
       Net::HTTP.post_form(
