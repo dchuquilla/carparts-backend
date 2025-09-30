@@ -54,7 +54,7 @@ es:
       description: "Por favor complete el formulario a continuación para enviar una nueva solicitud."
       submit: "Enviar Solicitud"
       success: "🎉 Solicitud enviada con éxito.\n%{request_url}"
-      error: "⛔ Hubo un error al enviar su solicitud.\n%{message}"
+      error: "⛔ Hubo un error al enviar la solicitud.\n\n%{message}"
       duplicated: "🔁 La solicitud ya existe.\n%{request_url}"
       ask_image: "📷 Si tienes una imagen del repuesto, por favor adjúntala aquí."
       ask_chassis: "🔢 Si tienes el número de chasis (SOLO LOS PRIMEROS 8 CARACTERES), por favor adjúntalo aquí."
