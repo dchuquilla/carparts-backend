@@ -41,6 +41,10 @@ es:
       request:
         one: "Solicitud"
         many: "Solicitudes"
+        attributes:
+          part_year:
+            blank: "es obligatorio"
+            not_a_number: "no es un número"
       user:
         one: "Usuario"
         many: "Usuarios"

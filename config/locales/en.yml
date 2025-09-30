@@ -42,6 +42,10 @@ en:
       user:
         one: "User"
         many: "Users"
+        attributes:
+          part_year:
+            blank: "is required"
+            not_a_number: "is not a number"
   requests:
     new:
       title: "New Request"
