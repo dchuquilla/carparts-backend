@@ -19,6 +19,11 @@ es:
         blank: "no puede estar en blanco"
         invalid: "no es válido"
         taken: "ya está en uso"
+      request:
+        attributes:
+          part_year:
+            blank: "es requerido"
+            not_a_number: "no es un número"
     attributes:
       request:
         part_name: "Nombre de la Pieza"
@@ -41,10 +46,6 @@ es:
       request:
         one: "Solicitud"
         many: "Solicitudes"
-        attributes:
-          part_year:
-            blank: "es obligatorio"
-            not_a_number: "no es un número"
       user:
         one: "Usuario"
         many: "Usuarios"
