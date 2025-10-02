@@ -15,15 +15,15 @@ es:
               required: "es requerido"
               greater_than: "debe ser mayor que 0"
               not_a_number: "debe ser un número"
+        request:
+          attributes:
+            part_year:
+              blank: "es requerido"
+              not_a_number: "no es un número"
       messages:
         blank: "no puede estar en blanco"
         invalid: "no es válido"
         taken: "ya está en uso"
-      request:
-        attributes:
-          part_year:
-            blank: "es requerido"
-            not_a_number: "no es un número"
     attributes:
       request:
         part_name: "Nombre de la Pieza"
