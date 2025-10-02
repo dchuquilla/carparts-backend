@@ -19,7 +19,7 @@ es:
           attributes:
             part_year:
               blank: "es requerido"
-              not_a_number: "no es un número"
+              not_a_number: "debe ser un número de 4 dígitos"
       messages:
         blank: "no puede estar en blanco"
         invalid: "no es válido"
