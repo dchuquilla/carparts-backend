@@ -16,7 +16,7 @@ module Storable
       obj_id = "#{SecureRandom.uuid}_#{image[:filename]}.webp"
       obj = bucket.object("#{Rails.application.credentials.dig(:r2_environment)}/photos/#{obj_id}")
 
-      obj.put(body: image.tempfile, acl: 'public-read')
+      obj.put(body: image[:io], acl: 'public-read')
 
       obj_id
     end
