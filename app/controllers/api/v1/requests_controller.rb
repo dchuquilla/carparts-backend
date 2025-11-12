@@ -1,8 +1,11 @@
+require 'open-uri'
+
 module Api
   module V1
     class RequestsController < ApplicationController
       include UniqueKeyGenerator
       include Pagy::Backend
+      include Storable
 
       before_action :authenticate_user!, except: %i[show create update filter]
 
@@ -93,6 +96,25 @@ module Api
 
       # PATCH/PUT /api/v1/requests/1
       def update
+        if request_params[:part_image].present?
+          # Download the file and save it to a temporary location
+          tmp_file = Tempfile.new(['part_image', File.extname(request_params[:part_image])])
+          tmp_file.binmode
+          tmp_file.write(URI.open(request_params[:part_image]).read)
+          tmp_file.rewind
+
+          # Create the image variable to send to store_image
+          image = { io: tmp_file, filename: File.basename(request_params[:part_image]) }
+
+          # Call the store_image method
+          obj_id = store_image(image)
+
+          # Ensure the temporary file is closed and unlinked after use
+          tmp_file.close
+          tmp_file.unlink
+          request_params[:part_image] = obj_id
+        end
+
         if @request.update(request_params)
           Chatbot::WebhookService.new({ request: @request, url: "/requests/#{@request.show_key}" }).notify_request_updated
           render json: @request
