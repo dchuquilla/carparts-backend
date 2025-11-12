@@ -13,7 +13,7 @@ module Storable
       )
 
       bucket = s3_client.bucket(Rails.application.credentials.dig(:r2_bucket))
-      obj_id = "#{SecureRandom.uuid}_#{image.original_filename}.webp"
+      obj_id = "#{SecureRandom.uuid}_#{image[:filename]}.webp"
       obj = bucket.object("#{Rails.application.credentials.dig(:r2_environment)}/photos/#{obj_id}")
 
       obj.put(body: image.tempfile, acl: 'public-read')
