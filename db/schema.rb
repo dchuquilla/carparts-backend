@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_20_025026) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_14_033207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -90,7 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_025026) do
     t.datetime "updated_at", null: false
     t.string "phone", null: false
     t.string "store_name", null: false
-    t.string "store_uid", null: false
+    t.string "store_uid"
     t.string "store_address"
     t.date "renew_at"
     t.string "confirmation_token"
