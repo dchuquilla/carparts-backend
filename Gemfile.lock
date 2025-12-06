@@ -1,3 +1,9 @@
+PATH
+  remote: whapi-sdk-ruby
+  specs:
+    openapi_client (1.0.0)
+      typhoeus (~> 1.0, >= 1.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -118,6 +124,7 @@ GEM
       fiber-local (~> 1.1)
       json
     crass (1.0.6)
+    csv (3.3.5)
     date (3.4.1)
     debug (1.10.0)
       irb (~> 1.10)
@@ -148,6 +155,8 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    ethon (0.15.0)
+      ffi (>= 1.15.0)
     factory_bot (6.5.1)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.4.4)
@@ -155,6 +164,13 @@ GEM
       railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
+    ffi (1.17.2-aarch64-linux-gnu)
+    ffi (1.17.2-aarch64-linux-musl)
+    ffi (1.17.2-arm-linux-gnu)
+    ffi (1.17.2-arm-linux-musl)
+    ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x86_64-linux-gnu)
+    ffi (1.17.2-x86_64-linux-musl)
     fiber-annotation (0.2.0)
     fiber-local (1.1.0)
       fiber-storage
@@ -397,6 +413,8 @@ GEM
     thruster (0.1.11-x86_64-linux)
     timeout (0.4.3)
     traces (0.18.1)
+    typhoeus (1.5.0)
+      ethon (>= 0.9.0, < 0.16.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.4)
@@ -434,12 +452,14 @@ DEPENDENCIES
   bootsnap
   brakeman
   byebug
+  csv
   debug
   devise
   devise-jwt
   factory_bot_rails
   faker
   kamal
+  openapi_client!
   pagy
   pg (~> 1.1)
   puma (>= 5.0)
