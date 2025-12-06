@@ -166,7 +166,7 @@ module OpenapiClient
         invalid_properties.push('invalid value for "max_callback_backoff_delay_ms", must be greater than or equal to 600000.')
       end
 
-      pattern = Regexp.new(/^socks5h?:\/\/([!-\/:-@[-`{-~a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)@(((?:[0-9]{1,3}\.){3}[0-9]{1,3})|[a-zA-Z0-9.]+):([0-9]{1,5})$|^$/)
+      pattern = Regexp.new(/^socks5h?:\/\/([!-\/:-@\[-`{-~a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)@(((?:[0-9]{1,3}\.){3}[0-9]{1,3})|[a-zA-Z0-9.]+):([0-9]{1,5})$|^$/)
       if !@proxy.nil? && @proxy !~ pattern
         invalid_properties.push("invalid value for \"proxy\", must conform to the pattern #{pattern}.")
       end
@@ -182,7 +182,7 @@ module OpenapiClient
       return false if !@callback_backoff_delay_ms.nil? && @callback_backoff_delay_ms < 3000
       return false if !@max_callback_backoff_delay_ms.nil? && @max_callback_backoff_delay_ms > 3600000
       return false if !@max_callback_backoff_delay_ms.nil? && @max_callback_backoff_delay_ms < 600000
-      return false if !@proxy.nil? && @proxy !~ Regexp.new(/^socks5h?:\/\/([!-\/:-@[-`{-~a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)@(((?:[0-9]{1,3}\.){3}[0-9]{1,3})|[a-zA-Z0-9.]+):([0-9]{1,5})$|^$/)
+      return false if !@proxy.nil? && @proxy !~ Regexp.new(/^socks5h?:\/\/([!-\/:-@\[-`{-~a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)@(((?:[0-9]{1,3}\.){3}[0-9]{1,3})|[a-zA-Z0-9.]+):([0-9]{1,5})$|^$/)
       true
     end
 
@@ -229,7 +229,7 @@ module OpenapiClient
         fail ArgumentError, 'proxy cannot be nil'
       end
 
-      pattern = Regexp.new(/^socks5h?:\/\/([!-\/:-@[-`{-~a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)@(((?:[0-9]{1,3}\.){3}[0-9]{1,3})|[a-zA-Z0-9.]+):([0-9]{1,5})$|^$/)
+      pattern = Regexp.new(/^socks5h?:\/\/([!-\/:-@\[-`{-~a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)@(((?:[0-9]{1,3}\.){3}[0-9]{1,3})|[a-zA-Z0-9.]+):([0-9]{1,5})$|^$/)
       if proxy !~ pattern
         fail ArgumentError, "invalid value for \"proxy\", must conform to the pattern #{pattern}."
       end
