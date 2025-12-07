@@ -102,9 +102,11 @@ module Chatbot
       )
     end
 
+    # Notify all stores about a new request
     def notify_request_to_store(message_key)
       return if Rails.env.test?
       request_url = Rails.application.credentials.dig(:web_url) + url
+      request_description = request.description.truncate(100)
 
       Async do
         User.find_each(batch_size: 100) do |store|
@@ -112,7 +114,7 @@ module Chatbot
             Net::HTTP.post_form(
               STORES_URI,
               "userId" => store.phone,
-              "message" => I18n.t(message_key, request_url: request_url)
+              "message" => I18n.t(message_key, request_description: request_description, request_url: request_url)
             )
           end
         end

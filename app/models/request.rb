@@ -52,6 +52,10 @@ class Request < ApplicationRecord
     "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:Cliente\nN;CHARSET=UTF-8:Cliente;Client;;Owner;Car\nNICKNAME;CHARSET=UTF-8:Cliente\nUID;CHARSET=UTF-8:#{SecureRandom.uuid}\nEMAIL;CHARSET=UTF-8;type=HOME,INTERNET:info@quientiene.com\nTEL;TYPE=CELL;waid=#{user_phone}:+#{user_phone}\nREV:2020-03-18T09:07:15.896Z\nEND:VCARD"
   end
 
+  def description
+    "#{part_name} - #{part_brand} - #{part_model} - #{part_year}"
+  end
+
   private
 
   def add_keys
