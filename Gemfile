@@ -40,8 +40,11 @@ gem "aws-sdk-s3", require: false
 # massive imports/exports
 gem 'csv'
 
-#whapi
+# whapi
 gem 'openapi_client', path: './whapi-sdk-ruby'
+
+# admin
+gem 'rails_admin', '~> 3.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
