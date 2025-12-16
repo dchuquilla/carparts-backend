@@ -109,7 +109,7 @@ module Chatbot
       request_description = request.description.truncate(100)
 
       Async do
-        User.find_each(batch_size: 100) do |store|
+        User.paid_subscribers.find_each(batch_size: 100) do |store|
           Async do
             Net::HTTP.post_form(
               STORES_URI,

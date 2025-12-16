@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_14_033207) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_16_231845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "subscription_tier", ["free", "paid"]
+  create_enum "subscription_tier", ["free", "paid", "wait", "cancel", "test"]
 
   create_table "jwt_denylists", force: :cascade do |t|
     t.string "jti"
