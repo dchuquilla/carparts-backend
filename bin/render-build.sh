@@ -5,6 +5,8 @@ set -o errexit
 
 bundle install
 
+bundle exec rake assets:precompile
+
 # If you have a paid instance type, we recommend moving
 # database migrations like this one from the build command
 # to the pre-deploy command:

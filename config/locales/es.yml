@@ -45,10 +45,10 @@ es:
     models:
       request:
         one: "Solicitud"
-        many: "Solicitudes"
+        other: "Solicitudes"
       user:
         one: "Usuario"
-        many: "Usuarios"
+        other: "Usuarios"
   requests:
     new:
       title: "Nueva Solicitud"
@@ -59,7 +59,7 @@ es:
       duplicated: "🔁 La solicitud ya existe.\n%{request_url}"
       ask_image: "📷 Si tienes una imagen del repuesto, por favor adjúntala aquí."
       ask_chassis: "🔢 Si tienes el número de chasis (SOLO LOS PRIMEROS 8 CARACTERES), por favor adjúntalo aquí."
-      stores: "Un cliente ha solicitado un repuesto.\nPor favor, revisa la solicitud en la aplicación para enviar una propuesta.\n%{request_description}\n%{request_url}"
+      stores: "Un cliente está buscando un repuesto.\n\nPor favor, revise la solicitud en en el link para enviar una cotización.\n\n%{request_description}\n\n%{request_url}"
     show:
       title: "Detalles de la Solicitud"
       description: "Detalles de la solicitud"

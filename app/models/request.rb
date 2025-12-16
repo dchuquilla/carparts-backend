@@ -53,7 +53,7 @@ class Request < ApplicationRecord
   end
 
   def description
-    "#{part_name} - #{part_brand} - #{part_model} - #{part_year}"
+    "*Repuesto:* #{part_name}\n*Marca:* #{part_brand}\n*Modelo:* #{part_model}\n*Año:* #{part_year}"
   end
 
   private

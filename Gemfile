@@ -60,3 +60,4 @@ group :development, :test do
   gem "byebug"
   gem "faker"
 end
+gem "sassc-rails"

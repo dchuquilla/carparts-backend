@@ -38,3 +38,7 @@
 
 /config/credentials/production.key
 .DS_Store
+
+/public/system/*
+/public/uploads/*
+/public/assets/*
