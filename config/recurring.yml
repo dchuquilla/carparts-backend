@@ -1,10 +1,13 @@
-# production:
-#   periodic_cleanup:
-#     class: CleanSoftDeletedRecordsJob
-#     queue: background
-#     args: [ 1000, { batch_size: 500 } ]
-#     schedule: every hour
-#   periodic_command:
-#     command: "SoftDeletedRecord.due.delete_all"
-#     priority: 2
-#     schedule: at 5am every day
+production:
+  daily_requests_reminder_job:
+    class: NotifyRequestsJob
+    queue: requests_notifications
+    schedule: every friday at 9am
+    timezone: America/Guayaquil
+
+development:
+  daily_requests_reminder_job:
+    class: NotifyRequestsJob
+    queue: requests_notifications
+    schedule: every friday at 9am
+    timezone: America/Guayaquil
