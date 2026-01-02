@@ -50,6 +50,10 @@ module Chatbot
       notify_request_to_store("requests.new.stores")
     end
 
+    def notify_requests_list_store
+      notify_requests_list_to_store("requests.reminder.stores")
+    end
+
     def notify_proposal_accepted
       notify_store("proposals.edit.accepted")
     end
@@ -115,6 +119,24 @@ module Chatbot
               STORES_URI,
               "userId" => store.phone,
               "message" => I18n.t(message_key, request_description: request_description, request_url: request_url)
+            )
+          end
+        end
+      end
+    end
+
+    # Notify all stores about pending requests
+    def notify_requests_list_to_store(message_key)
+      return if Rails.env.test?
+      request_url = Rails.application.credentials.dig(:web_url) + url
+
+      Async do
+        User.paid_subscribers.find_each(batch_size: 100) do |store|
+          Async do
+            Net::HTTP.post_form(
+              STORES_URI,
+              "userId" => store.phone,
+              "message" => I18n.t(message_key, request_url: request_url)
             )
           end
         end
