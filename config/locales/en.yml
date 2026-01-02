@@ -61,7 +61,7 @@ en:
       ask_chassis: "🔢 If you have the chassis number (ONLY THE FIRST 8 CHARACTERS), please attach it here."
       stores: "A customer is looking for a part.\n\nPlease check the request at the link to send a quote.\n\n%{request_description}\n\n%{request_url}"
     reminder:
-      stores: "⏰ Reminder: There are open requests waiting for your proposals.\n\nPlease check the requests at the link below:\n\n%{request_url}"
+      stores: "⏰ Reminder: There are %{count} open requests waiting for your proposals.\n\nPlease check the requests at the link below:\n\n%{request_url}"
     show:
       title: "Request Details"
       description: "Details for request"

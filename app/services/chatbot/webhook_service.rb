@@ -136,7 +136,7 @@ module Chatbot
             Net::HTTP.post_form(
               STORES_URI,
               "userId" => store.phone,
-              "message" => I18n.t(message_key, request_url: request_url)
+              "message" => I18n.t(message_key, count: Request.unaccepted.count, request_url: request_url)
             )
           end
         end

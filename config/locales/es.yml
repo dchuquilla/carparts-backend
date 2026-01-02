@@ -61,7 +61,7 @@ es:
       ask_chassis: "🔢 Si tienes el número de chasis (SOLO LOS PRIMEROS 8 CARACTERES), por favor adjúntalo aquí."
       stores: "Un cliente está buscando un repuesto.\n\nPor favor, revise la solicitud en en el link para enviar una cotización.\n\n%{request_description}\n\n%{request_url}"
     reminder:
-      stores: "⏰ Recordatorio: Hay solicitudes abiertas esperando tus cotizaciones.\n\nPor favor, revisa las solicitudes en el siguiente enlace:\n\n%{request_url}"
+      stores: "⏰ Recordatorio: Hay %{count} solicitudes abiertas esperando tus cotizaciones.\n\nPor favor, revisa las solicitudes en el siguiente enlace:\n\n%{request_url}"
     show:
       title: "Detalles de la Solicitud"
       description: "Detalles de la solicitud"
