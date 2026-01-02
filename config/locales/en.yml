@@ -104,6 +104,7 @@ en:
       error: "There was an error updating your store."
     destroy:
       success: "Store deleted successfully."
+      error: "There was an error deleting your store."
   proposals:
     new:
       title: "New Proposal"

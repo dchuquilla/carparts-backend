@@ -101,6 +101,10 @@ es:
       description: "Por favor actualice el formulario a continuación para editar la tienda."
       submit: "Actualizar Tienda"
       success: "🎉 Tienda actualizada con éxito.\n%{store_url}"
+      error: "Hubo un error al actualizar su tienda."
+    destroy:
+      success: "Tienda eliminada con éxito."
+      error: "Hubo un error al eliminar su tienda."
   proposals:
     new:
       title: "Nueva cotización"
