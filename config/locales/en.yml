@@ -130,3 +130,18 @@ en:
       accepted: "🎉 Your proposal was accepted.\n%{store_url}"
     destroy:
       success: "Proposal deleted successfully."
+  date:
+    month_names:
+      - ~
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December

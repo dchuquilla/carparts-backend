@@ -131,3 +131,18 @@ es:
     destroy:
       success: "cotización eliminada con éxito."
       error: "Hubo un error al eliminar su cotización."
+  date:
+    month_names:
+      - ""
+      - "Enero"
+      - "Febrero"
+      - "Marzo"
+      - "Abril"
+      - "Mayo"
+      - "Junio"
+      - "Julio"
+      - "Agosto"
+      - "Septiembre"
+      - "Octubre"
+      - "Noviembre"
+      - "Diciembre"
