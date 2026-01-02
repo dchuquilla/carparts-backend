@@ -20,8 +20,17 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: carparts_development
+  primary:
+    <<: *default
+    database: carparts_test
+  queue:
+    <<: *default
+    database: carparts_development_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: carparts_development_cable
+    migrations_paths: db/cable_migrate
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -54,8 +63,17 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: carparts_test
+  primary:
+    <<: *default
+    database: carparts_test
+  queue:
+    <<: *default
+    database: carparts_test_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: carparts_test_cable
+    migrations_paths: db/cable_migrate
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
