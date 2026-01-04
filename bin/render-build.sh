@@ -12,3 +12,4 @@ bundle exec rake assets:precompile
 # to the pre-deploy command:
 bin/rails db:migrate
 bin/rails import:users
+bin/jobs
