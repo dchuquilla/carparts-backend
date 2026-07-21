@@ -1,7 +1,6 @@
 module Api
   module V1
     class WebhooksController < ApplicationController
-      skip_before_action :verify_authenticity_token, raise: false
       before_action :verify_webhook_signature, only: [:handle_openwa]
 
       def handle_openwa
