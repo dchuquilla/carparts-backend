@@ -1,14 +1,9 @@
 require "async"
-require "net/http"
 
 module Chatbot
   class WebhookService
     include UniqueKeyGenerator
     attr_reader :request, :proposal, :store, :url, :message
-
-    STORES_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/stores/notify")
-    REQUESTS_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/requests/notify")
-    CONTACTS_URI = URI(Rails.application.credentials.dig(:chatbot_url) + "/webhook/contact/notify")
 
     def initialize(options)
       @request = options[:request]
@@ -76,37 +71,24 @@ module Chatbot
       return if Rails.env.test?
 
       request_url = Rails.application.credentials.dig(:web_url) + url
+      message_text = I18n.t(message_key, request_url: request_url)
 
-      Net::HTTP.post_form(
-        REQUESTS_URI,
-        "userId" => request.user_phone,
-        "message" => I18n.t(message_key, request_url: request_url)
-      )
+      OpenwaService.send_message(request.user_phone, message_text)
     end
 
     def notify_request_message(message_key)
       return if Rails.env.test?
 
-      Net::HTTP.post_form(
-        REQUESTS_URI,
-        "userId" => request.user_phone,
-        "message" => I18n.t(message_key, message: message)
-      )
+      message_text = I18n.t(message_key, message: message)
+      OpenwaService.send_message(request.user_phone, message_text)
     end
 
-    def notify_contact_request(message_key)
+    def notify_contact_request(vcard)
       return if Rails.env.test?
 
-
-      Net::HTTP.post_form(
-        CONTACTS_URI,
-        "userId" => proposal.request.user_phone,
-        "message" => message_key,
-        "contact" => "store"
-      )
+      OpenwaService.send_contact(proposal.request.user_phone, vcard)
     end
 
-    # Notify all stores about a new request
     def notify_request_to_store(message_key)
       return if Rails.env.test?
       request_url = Rails.application.credentials.dig(:web_url) + url
@@ -115,17 +97,13 @@ module Chatbot
       Async do
         User.paid_subscribers.find_each(batch_size: 100) do |store|
           Async do
-            Net::HTTP.post_form(
-              STORES_URI,
-              "userId" => store.phone,
-              "message" => I18n.t(message_key, request_description: request_description, request_url: request_url)
-            )
+            message_text = I18n.t(message_key, request_description: request_description, request_url: request_url)
+            OpenwaService.send_message(store.phone, message_text)
           end
         end
       end
     end
 
-    # Notify all stores about pending requests
     def notify_requests_list_to_store(message_key)
       return if Rails.env.test?
       request_url = Rails.application.credentials.dig(:web_url) + url
@@ -133,11 +111,8 @@ module Chatbot
       Async do
         User.paid_subscribers.find_each(batch_size: 100) do |store|
           Async do
-            Net::HTTP.post_form(
-              STORES_URI,
-              "userId" => store.phone,
-              "message" => I18n.t(message_key, count: Request.unaccepted.count, request_url: request_url)
-            )
+            message_text = I18n.t(message_key, count: Request.unaccepted.count, request_url: request_url)
+            OpenwaService.send_message(store.phone, message_text)
           end
         end
       end
@@ -147,35 +122,24 @@ module Chatbot
       return if Rails.env.test?
 
       store_url = Rails.application.credentials.dig(:web_url) + url
+      message_text = I18n.t(message_key, store_url: store_url)
 
-      Net::HTTP.post_form(
-        STORES_URI,
-        "userId" => store.phone,
-        "message" => I18n.t(message_key, store_url: store_url)
-      )
+      OpenwaService.send_message(store.phone, message_text)
     end
 
-    def notify_contact_store(message_key)
+    def notify_contact_store(vcard)
       return if Rails.env.test?
 
-        Net::HTTP.post_form(
-        CONTACTS_URI,
-        "userId" => proposal.user.phone,
-        "message" => message_key,
-        "contact" => "car_owner"
-      )
+      OpenwaService.send_contact(proposal.user.phone, vcard)
     end
 
     def notify_proposal(message_key)
       return if Rails.env.test?
 
       request_url = Rails.application.credentials.dig(:web_url) + url
+      message_text = I18n.t(message_key, proposal_url: request_url)
 
-      Net::HTTP.post_form(
-        STORES_URI,
-        "userId" => proposal.request.user_phone,
-        "message" => I18n.t(message_key, proposal_url: request_url)
-      )
+      OpenwaService.send_message(proposal.request.user_phone, message_text)
     end
   end
 end

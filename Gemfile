@@ -40,9 +40,6 @@ gem "aws-sdk-s3", require: false
 # massive imports/exports
 gem 'csv'
 
-# whapi
-gem 'openapi_client', path: './whapi-sdk-ruby'
-
 # admin
 gem 'rails_admin', '~> 3.0'
 

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
           patch "reject", to: "proposals#reject", as: "reject"
         end
       end
+
+      post "webhooks/openwa", to: "webhooks#handle_openwa"
     end
   end
 end

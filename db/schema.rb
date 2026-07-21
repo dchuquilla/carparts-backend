@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_16_231845) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_21_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -104,6 +104,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_231845) do
     t.index ["phone"], name: "index_users_on_phone", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["store_uid"], name: "index_users_on_store_uid", unique: true
+  end
+
+  create_table "webhook_events", force: :cascade do |t|
+    t.string "event_type", null: false
+    t.string "source_phone"
+    t.json "payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_webhook_events_on_created_at"
+    t.index ["event_type"], name: "index_webhook_events_on_event_type"
+    t.index ["source_phone"], name: "index_webhook_events_on_source_phone"
   end
 
   add_foreign_key "proposals", "requests"

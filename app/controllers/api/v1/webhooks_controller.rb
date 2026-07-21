@@ -1,0 +1,84 @@
+module Api
+  module V1
+    class WebhooksController < ApplicationController
+      skip_before_action :verify_authenticity_token
+      before_action :verify_webhook_signature, only: [:handle_openwa]
+
+      def handle_openwa
+        case event_type
+        when "message"
+          handle_message
+        when "message.status"
+          handle_message_status
+        when "connection"
+          handle_connection_status
+        else
+          Rails.logger.info("Unknown OpenWa event type: #{event_type}")
+        end
+
+        render json: { success: true }
+      rescue StandardError => e
+        Rails.logger.error("Webhook error: #{e.message}\n#{e.backtrace.join("\n")}")
+        render json: { error: e.message }, status: :bad_request
+      end
+
+      private
+
+      def verify_webhook_signature
+        # Verify the webhook is from OpenWa using the token
+        token = request.headers["Authorization"]&.gsub(/^Bearer /, "")
+        expected_token = Rails.application.credentials.dig(:openwa_token)
+
+        unless token == expected_token
+          render json: { error: "Unauthorized" }, status: :unauthorized
+        end
+      end
+
+      def handle_message
+        phone = webhook_params.dig(:data, :from)
+        text = webhook_params.dig(:data, :body)
+
+        Rails.logger.info("Received message from #{phone}: #{text}")
+
+        # Log webhook event
+        WebhookEvent.create(
+          event_type: "message",
+          source_phone: phone,
+          payload: webhook_params.to_h
+        )
+      end
+
+      def handle_message_status
+        message_id = webhook_params.dig(:data, :id)
+        status = webhook_params.dig(:data, :status)
+        to_phone = webhook_params.dig(:data, :to)
+
+        Rails.logger.info("Message #{message_id} to #{to_phone} status: #{status}")
+
+        WebhookEvent.create(
+          event_type: "message.status",
+          source_phone: to_phone,
+          payload: webhook_params.to_h
+        )
+      end
+
+      def handle_connection_status
+        status = webhook_params.dig(:data, :status)
+        Rails.logger.info("OpenWa connection status: #{status}")
+
+        WebhookEvent.create(
+          event_type: "connection",
+          payload: webhook_params.to_h
+        )
+      end
+
+      def event_type
+        webhook_params.dig(:event)
+      end
+
+      def webhook_params
+        @webhook_params ||= request.json_body.with_indifferent_access
+      end
+    end
+  end
+end
