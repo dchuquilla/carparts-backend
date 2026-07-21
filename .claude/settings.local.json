@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "disallow": [
+      "Bash(git add *)",
+      "Bash(git commit -m 'Fix webhook controller callback for Render deployment *)"
+    ]
+  }
+}
