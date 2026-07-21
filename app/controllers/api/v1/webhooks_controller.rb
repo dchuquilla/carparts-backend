@@ -26,10 +26,17 @@ module Api
 
       def verify_webhook_signature
         # Verify the webhook is from OpenWa using the token
-        token = request.headers["Authorization"]&.gsub(/^Bearer /, "")
+        auth_header = request.headers["Authorization"]
         expected_token = Rails.application.credentials.dig(:openwa_token)
 
-        unless token == expected_token
+        # Extract token from Authorization header (remove "Bearer " prefix if present)
+        token_from_header = auth_header&.gsub(/^Bearer\s+/, "")
+
+        # Extract expected token (remove "Bearer " prefix if present)
+        expected_token_value = expected_token&.gsub(/^Bearer\s+/, "")
+
+        unless token_from_header == expected_token_value && token_from_header.present?
+          Rails.logger.warn("Webhook signature verification failed. Expected: #{expected_token_value&.first(20)}... Got: #{token_from_header&.first(20)}...")
           render json: { error: "Unauthorized" }, status: :unauthorized
         end
       end
