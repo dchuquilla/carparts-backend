@@ -131,6 +131,14 @@ es:
     destroy:
       success: "cotización eliminada con éxito."
       error: "Hubo un error al eliminar su cotización."
+  chatbot:
+    greeting: "👋 ¡Hola! Bienvenido a QuienTiene. Estoy aquí para ayudarte a encontrar repuestos de auto.\n\nPor favor describe la pieza que buscas (ej: 'bloque de motor para Toyota Camry 2020')."
+    collect_data: "¡Gracias por la información! Necesito algunos detalles más:\n\nFalta: %{pending_fields}\n\nPor favor proporciona la información faltante."
+    confirm_request: "¡Perfecto! Aquí está lo que encontré:\n\n📌 Nombre de Pieza: %{part_name}\n🏷️ Marca: %{part_brand}\n🚗 Modelo: %{part_model}\n📅 Año: %{part_year}\n\n¡Enviaré esto a nuestras tiendas asociadas. ¡Recibirás cotizaciones pronto!"
+    chassis_confirmed: "✅ Número de chasis recibido: %{chassis_code}\n\n¡Gracias! Tu solicitud ha sido registrada."
+    error: "⛔ No pude procesar eso. ¿Podrías intentar de nuevo?"
+    unpleasant: "Estoy aquí para ayudarte con solicitudes de repuestos de auto. Mantengamos nuestra conversación respetuosa.\n\n👉 Por favor cuéntame qué repuesto estás buscando."
+    no_replacement: "No pude encontrar información de la pieza en tu mensaje. Por favor proporciona:\n\n- Nombre de la Pieza\n- Marca\n- Modelo\n- Año\n\nEjemplo: 'Necesito un pastilla de freno para Toyota Camry 2020'"
   date:
     month_names:
       - ""

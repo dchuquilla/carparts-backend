@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_21_000000) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_22_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -18,6 +18,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_21_000000) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "subscription_tier", ["free", "paid", "wait", "cancel", "test"]
+
+  create_table "chat_sessions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "request_id"
+    t.string "user_phone", null: false
+    t.string "state", default: "NEW", null: false
+    t.json "request_data", default: {}
+    t.datetime "last_message_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["last_message_at"], name: "index_chat_sessions_on_last_message_at"
+    t.index ["request_id"], name: "index_chat_sessions_on_request_id"
+    t.index ["state"], name: "index_chat_sessions_on_state"
+    t.index ["user_id"], name: "index_chat_sessions_on_user_id"
+    t.index ["user_phone"], name: "index_chat_sessions_on_user_phone", unique: true
+  end
 
   create_table "jwt_denylists", force: :cascade do |t|
     t.string "jti"
@@ -99,6 +115,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_21_000000) do
     t.string "unconfirmed_email"
     t.enum "subscription_tier", enum_type: "subscription_tier"
     t.boolean "terms_and_conditions"
+    t.string "language", default: "es", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
@@ -117,6 +134,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_07_21_000000) do
     t.index ["source_phone"], name: "index_webhook_events_on_source_phone"
   end
 
+  add_foreign_key "chat_sessions", "requests"
+  add_foreign_key "chat_sessions", "users"
   add_foreign_key "proposals", "requests"
   add_foreign_key "proposals", "users"
   add_foreign_key "stores", "users"

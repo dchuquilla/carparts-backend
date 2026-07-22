@@ -130,6 +130,14 @@ en:
       accepted: "🎉 Your proposal was accepted.\n%{store_url}"
     destroy:
       success: "Proposal deleted successfully."
+  chatbot:
+    greeting: "👋 Hello! Welcome to QuienTiene. I'm here to help you find auto parts.\n\nPlease describe the part you're looking for (e.g., 'engine block for Toyota Camry 2020')."
+    collect_data: "Thank you for the information! I need a few more details:\n\nMissing: %{pending_fields}\n\nPlease provide the missing information."
+    confirm_request: "Perfect! Here's what I found:\n\n📌 Part Name: %{part_name}\n🏷️ Brand: %{part_brand}\n🚗 Model: %{part_model}\n📅 Year: %{part_year}\n\nI'll send this to our partner stores. You'll receive quotes shortly!"
+    chassis_confirmed: "✅ Chassis number received: %{chassis_code}\n\nThank you! Your request has been registered."
+    error: "⛔ I couldn't process that. Could you please try again?"
+    unpleasant: "I'm here to help with car parts requests. Let's keep our conversation respectful.\n\n👉 Please tell me what part you're looking for."
+    no_replacement: "I couldn't find the part information in your message. Please provide:\n\n- Part Name\n- Brand\n- Model\n- Year\n\nExample: 'I need a brake pad for Toyota Camry 2020'"
   date:
     month_names:
       - ~

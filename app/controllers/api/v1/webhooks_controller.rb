@@ -46,6 +46,9 @@ module Api
           source_phone: phone,
           payload: webhook_params.to_h
         )
+
+        # Process message and send response asynchronously
+        Chatbot::WebhookMessageHandlerService.new(phone, text).handle
       end
 
       def handle_message_status
