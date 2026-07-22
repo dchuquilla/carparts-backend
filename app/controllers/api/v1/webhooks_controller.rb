@@ -6,7 +6,7 @@ module Api
 
       def handle_openwa
         case event_type
-        when "message"
+        when "message.received"
           handle_message
         when "message.status"
           handle_message_status
