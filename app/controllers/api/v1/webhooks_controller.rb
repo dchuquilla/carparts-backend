@@ -77,7 +77,7 @@ module Api
       end
 
       def webhook_params
-        @webhook_params ||= request.json_body.with_indifferent_access
+        @webhook_params ||= params.except(:controller, :action).permit!.to_h.with_indifferent_access
       end
     end
   end
