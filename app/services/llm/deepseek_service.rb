@@ -1,7 +1,7 @@
 require 'net/http'
 require 'json'
 
-module LLM
+module Llm
   class DeepseekService
     DEEPSEEK_BASE_URL = Rails.application.credentials.dig(:deepseek_base_url) || "https://api.deepseek.com/v1"
     DEEPSEEK_API_KEY = Rails.application.credentials.dig(:deepseek_api_key)

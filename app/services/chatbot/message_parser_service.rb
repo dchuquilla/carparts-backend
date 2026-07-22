@@ -7,7 +7,7 @@ module Chatbot
     def parse
       return error_response if @message_text.blank?
 
-      response = LLM::DeepseekService.parse_message(@message_text)
+      response = Llm::DeepseekService.parse_message(@message_text)
       validate_response(response)
     rescue StandardError => e
       Rails.logger.error("MessageParserService error: #{e.message}")
