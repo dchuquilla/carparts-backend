@@ -98,7 +98,8 @@ module Chatbot
         Rails.logger.warn("OpenWa rate limited for #{path}")
         { error: "Rate limited" }
       else
-        Rails.logger.error("OpenWa error #{response.code} for #{path}: #{response.body}")
+        uri = URI("#{OPENWA_BASE_URL}#{path}")
+        Rails.logger.error("OpenWa error #{response.code} for #{uri}: #{response.body}")
         { error: "Request failed with status #{response.code}" }
       end
     rescue JSON::ParserError
