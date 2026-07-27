@@ -25,13 +25,43 @@ module Api
       private
 
       def verify_webhook_signature
-        # OpenWa webhooks may not include Authorization header
-        # For now, accept all webhook events. In production, consider:
-        # - Verifying webhook signature from OpenWa payload
-        # - Using IP whitelisting
-        # - Requiring API key in request body
+        signature = request.headers['X-Webhook-Signature'] || params[:signature]
+        return unless signature_validation_enabled?
 
-        Rails.logger.info("Webhook received from OpenWa")
+        unless valid_signature?(signature)
+          Rails.logger.warn("Invalid webhook signature from #{request.remote_ip}")
+          render json: { error: 'Invalid signature' }, status: :unauthorized
+        end
+      end
+
+      def signature_validation_enabled?
+        Rails.application.credentials.dig(:openwa_webhook_secret).present?
+      end
+
+      def valid_signature?(provided_signature)
+        expected_signature = calculate_signature
+        # Use secure comparison to prevent timing attacks
+        ActiveSupport::SecurityUtils.secure_compare(
+          provided_signature.to_s,
+          expected_signature.to_s
+        )
+      rescue StandardError => e
+        Rails.logger.error("Signature verification error: #{e.message}")
+        false
+      end
+
+      def calculate_signature
+        secret = Rails.application.credentials.dig(:openwa_webhook_secret)
+        return nil unless secret
+
+        # Include relevant payload data in signature
+        payload = [
+          webhook_params.dig(:sessionId),
+          webhook_params.dig(:event),
+          webhook_params.dig(:timestamp)
+        ].join('|')
+
+        OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
       end
 
       def handle_message
