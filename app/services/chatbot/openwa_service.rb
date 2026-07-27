@@ -60,7 +60,8 @@ module Chatbot
     private
 
     def post_request(path, payload)
-      uri = URI("#{OPENWA_BASE_URL}#{path}")
+      url = build_url(path)
+      uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == "https"
 
@@ -68,43 +69,48 @@ module Chatbot
       request.body = JSON.generate(payload)
 
       response = http.request(request)
-      handle_response(response, path)
+      handle_response(response, url)
     rescue StandardError => e
       Rails.logger.error("OpenWa request failed: #{e.message}")
       { error: e.message }
     end
 
     def get_request(path)
-      uri = URI("#{OPENWA_BASE_URL}#{path}")
+      url = build_url(path)
+      uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == "https"
 
       request = Net::HTTP::Get.new(uri.path, headers)
       response = http.request(request)
-      handle_response(response, path)
+      handle_response(response, url)
     rescue StandardError => e
       Rails.logger.error("OpenWa request failed: #{e.message}")
       { error: e.message }
     end
 
-    def handle_response(response, path)
+    def handle_response(response, url)
       case response.code.to_i
       when 200..299
         JSON.parse(response.body)
       when 401, 403
-        Rails.logger.error("OpenWa authentication failed for #{path}")
+        Rails.logger.error("OpenWa authentication failed for #{url}")
         { error: "Authentication failed" }
       when 429
-        Rails.logger.warn("OpenWa rate limited for #{path}")
+        Rails.logger.warn("OpenWa rate limited for #{url}")
         { error: "Rate limited" }
       else
-        uri = URI("#{OPENWA_BASE_URL}#{path}")
-        Rails.logger.error("OpenWa error #{response.code} for #{uri}: #{response.body}")
+        Rails.logger.error("OpenWa error #{response.code} for #{url}: #{response.body}")
         { error: "Request failed with status #{response.code}" }
       end
     rescue JSON::ParserError
-      Rails.logger.error("Failed to parse OpenWa response for #{path}")
+      Rails.logger.error("Failed to parse OpenWa response for #{url}")
       { error: "Invalid response format" }
+    end
+
+    def build_url(path)
+      base = OPENWA_BASE_URL.to_s.gsub(%r{/$}, '')
+      "#{base}#{path}"
     end
 
     def headers
