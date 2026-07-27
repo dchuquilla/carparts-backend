@@ -1,6 +1,7 @@
 module Chatbot
   class WebhookMessageHandlerService
-    def initialize(phone_number, message_text)
+    def initialize(session_id, phone_number, message_text)
+      @session_id = session_id
       @phone_number = phone_number
       @message_text = message_text
       @session_service = ChatSessionService.new(phone_number)
@@ -37,13 +38,13 @@ module Chatbot
     end
 
     def send_response(text)
-      OpenwaService.new.send_message(@phone_number, text)
+      OpenwaService.new.send_message(@session_id, @phone_number, text)
     rescue StandardError => e
       Rails.logger.error("Failed to send response to #{@phone_number}: #{e.message}")
     end
 
     def send_error_response
-      OpenwaService.new.send_message(@phone_number, I18n.t("chatbot.error"))
+      OpenwaService.new.send_message(@session_id, @phone_number, I18n.t("chatbot.error"))
     rescue StandardError => e
       Rails.logger.error("Failed to send error response to #{@phone_number}: #{e.message}")
     end

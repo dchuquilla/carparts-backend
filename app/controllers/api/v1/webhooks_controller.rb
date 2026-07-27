@@ -35,10 +35,11 @@ module Api
       end
 
       def handle_message
+        sessionId = webhook_params.dig(:sessionId)
         phone = webhook_params.dig(:data, :from)
         text = webhook_params.dig(:data, :body)
 
-        Rails.logger.info("Received message from #{phone}: #{text}")
+        Rails.logger.info("Received message from #{sessionId} - #{phone}: #{text}")
 
         # Log webhook event
         WebhookEvent.create(
@@ -48,7 +49,7 @@ module Api
         )
 
         # Process message and send response asynchronously
-        Chatbot::WebhookMessageHandlerService.new(phone, text).handle
+        Chatbot::WebhookMessageHandlerService.new(sessionId, phone, text).handle
       end
 
       def handle_message_status

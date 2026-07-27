@@ -18,15 +18,28 @@ module Chatbot
       new.get_account_info
     end
 
-    def send_message(phone, message)
+    def send_message(session_id_or_phone, phone_or_message = nil, message = nil)
       return if Rails.env.test?
 
+      # Support both old (phone, message) and new (session_id, phone, message) signatures
+      if message.nil?
+        # Old signature: send_message(phone, message)
+        phone = session_id_or_phone
+        message_text = phone_or_message
+        session_id = get_default_session_id
+      else
+        # New signature: send_message(session_id, phone, message)
+        session_id = session_id_or_phone
+        phone = phone_or_message
+        message_text = message
+      end
+
       payload = {
-        to: normalize_phone(phone),
-        message: message
+        chatId: normalize_phone(phone),
+        text: message_text
       }
 
-      post_request("/api/messages/send", payload)
+      post_request("/api/sessions/#{session_id}/messages/send-text", payload)
     end
 
     def send_contact(phone, vcard)
@@ -104,6 +117,10 @@ module Chatbot
     def normalize_phone(phone)
       # Remove any non-digit characters except leading +
       phone.to_s.gsub(/[^\d+]/, "").gsub(/^\+/, "")
+    end
+
+    def get_default_session_id
+      Rails.application.credentials.dig(:openwa_default_session_id) || ENV['OPENWA_DEFAULT_SESSION_ID'] || raise("No default session ID configured. Set OPENWA_DEFAULT_SESSION_ID or configure openwa_default_session_id in credentials.")
     end
   end
 end
