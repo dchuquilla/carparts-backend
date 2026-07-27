@@ -84,8 +84,8 @@ class RateLimitMiddleware
     # Remove old entries
     count.reject! { |timestamp| current_time - timestamp > WINDOW_SIZE_SECONDS }
 
-    # Count 404s in current window (scanning behavior indicator)
-    count >= MAX_REQUESTS_PER_WINDOW
+    # Count requests in current window (scanning behavior indicator)
+    count.length >= MAX_REQUESTS_PER_WINDOW
   end
 
   def increment_request_count(client_ip)
