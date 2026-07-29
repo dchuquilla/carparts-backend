@@ -25,7 +25,8 @@ module Api
       private
 
       def verify_webhook_signature
-        signature = request.headers['X-Webhook-Signature'] || params[:signature]
+        # OpenWA sends signature in X-OpenWA-Signature header with format: sha256=<hex>
+        signature = request.headers['X-OpenWA-Signature']
         return unless signature_validation_enabled?
 
         unless valid_signature?(signature)
@@ -39,6 +40,8 @@ module Api
       end
 
       def valid_signature?(provided_signature)
+        return false if provided_signature.blank?
+
         expected_signature = calculate_signature
         # Use secure comparison to prevent timing attacks
         ActiveSupport::SecurityUtils.secure_compare(
@@ -54,14 +57,12 @@ module Api
         secret = Rails.application.credentials.dig(:openwa_webhook_secret)
         return nil unless secret
 
-        # Include relevant payload data in signature
-        payload = [
-          webhook_params.dig(:sessionId),
-          webhook_params.dig(:event),
-          webhook_params.dig(:timestamp)
-        ].join('|')
-
-        OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
+        # OpenWA signs the full JSON request body using HMAC-SHA256
+        # Format: sha256=<hex>
+        payload = request.body.read
+        request.body.rewind  # Reset for later reads
+        digest = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
+        "sha256=#{digest}"
       end
 
       def handle_message
