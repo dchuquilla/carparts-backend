@@ -4,7 +4,8 @@
       "Bash(git add *)",
       "Bash(git commit -m 'Fix webhook controller callback for Render deployment *)",
       "Bash(ruby -c /Users/dchuquilla/dario/repuestos/carparts-backend/app/middleware/security_headers_middleware.rb)",
-      "Bash(ruby -c /Users/dchuquilla/dario/repuestos/carparts-backend/app/middleware/rate_limit_middleware.rb)"
+      "Bash(ruby -c /Users/dchuquilla/dario/repuestos/carparts-backend/app/middleware/rate_limit_middleware.rb)",
+      "Bash(ruby -c /Users/dchuquilla/dario/repuestos/carparts-backend/app/controllers/api/v1/webhooks_controller.rb)"
     ]
   }
 }
