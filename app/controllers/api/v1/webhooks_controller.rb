@@ -27,7 +27,12 @@ module Api
       def verify_webhook_signature
         # OpenWA sends signature in X-OpenWA-Signature header with format: sha256=<hex>
         signature = request.headers['X-OpenWA-Signature']
-        return unless signature_validation_enabled?
+
+        # If signature validation is disabled (no secret configured), log and continue
+        unless signature_validation_enabled?
+          Rails.logger.warn("Webhook signature validation disabled (no secret configured)")
+          return
+        end
 
         unless valid_signature?(signature)
           Rails.logger.warn("Invalid webhook signature from #{request.remote_ip}")
@@ -36,7 +41,7 @@ module Api
       end
 
       def signature_validation_enabled?
-        Rails.application.credentials.dig(:openwa_webhook_secret).present?
+        Rails.application.credentials.dig(:openwa_webhook_secret).present? || ENV['OPENWA_WEBHOOK_SECRET'].present?
       end
 
       def valid_signature?(provided_signature)
@@ -54,7 +59,7 @@ module Api
       end
 
       def calculate_signature
-        secret = Rails.application.credentials.dig(:openwa_webhook_secret)
+        secret = Rails.application.credentials.dig(:openwa_webhook_secret) || ENV['OPENWA_WEBHOOK_SECRET']
         return nil unless secret
 
         # OpenWA signs the full JSON request body using HMAC-SHA256
