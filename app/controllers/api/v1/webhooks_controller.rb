@@ -59,8 +59,8 @@ module Api
 
         # OpenWA signs the full JSON request body using HMAC-SHA256
         # Format: sha256=<hex>
-        payload = request.body.read
-        request.body.rewind  # Reset for later reads
+        # Use request.raw_post to get the raw unparsed body
+        payload = request.raw_post
         digest = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
         "sha256=#{digest}"
       end
